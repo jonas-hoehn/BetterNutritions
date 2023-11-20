@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.example.betternutritions.databinding.ActivityMainBinding
 import com.example.betternutritions.databinding.ContentMainBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -27,7 +28,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-    private lateinit var navController: NavController
+    private var navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_fragment_content_main) as NavHostFragment?
+    private var navController = navHostFragment?.navController
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()){
@@ -70,16 +72,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
         initBinding()
 
         val btn_scan: FloatingActionButton = binding.btnScan
 
         setSupportActionBar(binding.toolbar)
 
-
-        navController = findNavController(R.id.nav_fragment_content_main)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        appBarConfiguration = AppBarConfiguration(navController?.graph!!)
+        setupActionBarWithNavController(navController!!, appBarConfiguration)
 
         binding.btnScan.setOnClickListener { view ->
             Snackbar.make(view, "Bar-Code Scanner aktiviert", Snackbar.LENGTH_LONG)
