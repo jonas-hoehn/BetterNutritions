@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import com.example.betternutritions.databinding.ActivityMainBinding
 import com.example.betternutritions.databinding.ContentMainBinding
@@ -80,8 +81,9 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        appBarConfiguration = AppBarConfiguration(navController?.graph!!)
-        setupActionBarWithNavController(navController!!, appBarConfiguration)
+        // not required -> Initiatilized via FirstFragment
+        //appBarConfiguration = AppBarConfiguration(navController?.graph!!)
+        //setupActionBarWithNavController(navController!!, appBarConfiguration)
 
         binding.btnScan.setOnClickListener { view ->
             Snackbar.make(view, "Bar-Code Scanner aktiviert", Snackbar.LENGTH_LONG)
