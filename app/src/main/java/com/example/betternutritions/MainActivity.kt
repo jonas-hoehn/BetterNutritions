@@ -21,12 +21,10 @@ import com.example.betternutritions.model.ProductData
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.GsonBuilder
-import com.google.zxing.client.android.Intents.Scan
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 import okhttp3.Call
-
 import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -172,12 +170,17 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "Produkt serialisiert")
                 println(products)
 
-                val scanResultView = findViewById<TextView>(R.id.scanResultView)
-                Log.d(TAG, "setting text")
-                scanResultView.text = products.product.product_name
+                Thread {
+                    runOnUiThread {
+                        val imageView = findViewById<ImageView>(R.id.productImage)
+                        val scanResultView = findViewById<TextView>(R.id.scanResultView)
+                        Log.d(TAG, "setting text")
+                        scanResultView.text = products.product.product_name
 
-                val imageView = findViewById<ImageView>(R.id.productImage)
-                Glide.with(imageView).load(products.product.image_front_small_url).into(imageView)
+                        Glide.with(imageView).load(products.product.image_front_small_url).into(imageView)
+                    }
+                }.start()
+
             }
         })
     }
