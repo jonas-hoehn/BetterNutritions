@@ -3,34 +3,42 @@ package com.example.betternutritions
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
 import com.example.betternutritions.databinding.ActivityMainBinding
-import com.example.betternutritions.databinding.ContentMainBinding
+import com.example.betternutritions.model.ProductData
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
+import com.google.gson.GsonBuilder
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import java.io.IOException
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-    private var navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_fragment_content_main) as NavHostFragment?
-    private var navController = navHostFragment?.navController
+
+    private val client = OkHttpClient()
+    private var jsonString: String = ""
+
+    //private var navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_fragment_content_main) as NavHostFragment?
+    //private var navController = navHostFragment?.navController
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()){
@@ -55,13 +63,17 @@ class MainActivity : AppCompatActivity() {
         }
 
     private fun setResult (string: String){
-        val scanResult = findViewById<TextView>(R.id.scanResult)
-        scanResult.text = string
+        val url = "https://world.openfoodfacts.net/api/v3/product/${string}"
+        getJson(url)
+
+        val scanResultView = findViewById<TextView>(R.id.scanResultView)
+        scanResultView.text = this.jsonString
+
     }
 
     private fun showCamera() {
         val options = ScanOptions()
-        options.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
+        options.setDesiredBarcodeFormats(ScanOptions.ALL_CODE_TYPES)
         options.setPrompt("Scan QR Code")
         options.setCameraId(0)
         options.setBeepEnabled(false)
@@ -131,4 +143,36 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
+
+    fun getJson(url: String) {
+        val request = Request.Builder()
+            .url(url)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {}
+
+            override fun onResponse(call: Call, response: Response) {
+                jsonString = response.body()?.string().toString()
+
+                val gsonBuilder = GsonBuilder()
+                gsonBuilder.setLenient()
+                val gson = gsonBuilder.create()
+
+                /*val test = "{\n" +
+                        "\"status_id\": \"success\",\n" +
+                        "\"result\": {\n" +
+                        "\"id\": \"string\",\n" +
+                        "\"name\": \"string\",\n" +
+                        "\"lc_name\": \"string\"\n" +
+                        "}\n" +
+                        "}"*/
+                val products = gson.fromJson(jsonString, ProductData::class.java)
+                println(products)
+            }
+        })
+    }
+
+
+
 }
