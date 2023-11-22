@@ -1,3 +1,5 @@
 package com.example.betternutritions.model
 
-class Small
+data class Small(
+    val de: String
+)

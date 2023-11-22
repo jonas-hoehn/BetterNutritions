@@ -1,10 +1,12 @@
 package com.example.betternutritions.model
 
-data class SizesX(
+data class SizesXXXX(
     val dummy: Int
-    /*val `100`: X100,
+    /*
+    val `100`: X100,
+    val `200`: X100,
     val `400`: X100,
-    val full: FullX
+    val full: FullXXXX
 
      */
 )

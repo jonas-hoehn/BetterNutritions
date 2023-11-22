@@ -1,12 +1,10 @@
 package com.example.betternutritions.model
 
-data class Ingredient(
-    val from_palm_oil: String,
+data class IngredientXX(
     val id: String,
-    val ingredients: List<IngredientX>,
     val percent_estimate: Double,
     val percent_max: Double,
-    val percent_min: Double,
+    val percent_min: Int,
     val text: String,
     val vegan: String,
     val vegetarian: String

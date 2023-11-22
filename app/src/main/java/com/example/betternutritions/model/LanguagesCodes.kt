@@ -1,3 +1,5 @@
 package com.example.betternutritions.model
 
-class LanguagesCodes
+data class LanguagesCodes(
+    val de: Int
+)

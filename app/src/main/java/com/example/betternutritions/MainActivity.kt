@@ -22,6 +22,7 @@ import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 import okhttp3.Call
+
 import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -93,10 +94,6 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        // not required -> Initiatilized via FirstFragment
-        //appBarConfiguration = AppBarConfiguration(navController?.graph!!)
-        //setupActionBarWithNavController(navController!!, appBarConfiguration)
-
         binding.btnScan.setOnClickListener { view ->
             Snackbar.make(view, "Bar-Code Scanner aktiviert", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
@@ -159,14 +156,6 @@ class MainActivity : AppCompatActivity() {
                 gsonBuilder.setLenient()
                 val gson = gsonBuilder.create()
 
-                /*val test = "{\n" +
-                        "\"status_id\": \"success\",\n" +
-                        "\"result\": {\n" +
-                        "\"id\": \"string\",\n" +
-                        "\"name\": \"string\",\n" +
-                        "\"lc_name\": \"string\"\n" +
-                        "}\n" +
-                        "}"*/
                 val products = gson.fromJson(jsonString, ProductData::class.java)
                 println(products)
             }

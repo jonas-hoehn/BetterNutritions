@@ -1,7 +1,7 @@
 package com.example.betternutritions.model
 
-data class X1(
-    val sizes: Sizes,
+data class X3(
+    val sizes: SizesXX,
     val uploaded_t: Int,
     val uploader: String
 )

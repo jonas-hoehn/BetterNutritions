@@ -1,7 +1,6 @@
 package com.example.betternutritions.model
 
 data class Missing(
-    val labels: Int,
-    val origins: Int,
-    val packagings: Int
+    val agb_category: Int,
+    val origins: Int
 )

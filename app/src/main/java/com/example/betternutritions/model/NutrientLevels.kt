@@ -1,8 +1,10 @@
 package com.example.betternutritions.model
 
 data class NutrientLevels(
-   /* val fat: String,
+    val dummy: Int
+    /*
+    val fat: String,
     val salt: String,
-    val saturated-fat: String,*/
-    val sugars: String
+    val saturated-fat: String,
+    val sugars: String*/
 )
