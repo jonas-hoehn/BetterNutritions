@@ -1,7 +1,7 @@
 package com.example.betternutritions.model
 
 data class IngredientsDe(
-    val angle: Int,
+    val angle: Double,
     val coordinates_image_size: String,
     val geometry: String,
     val imgid: String,

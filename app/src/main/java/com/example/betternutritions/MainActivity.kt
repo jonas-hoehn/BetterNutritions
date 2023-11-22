@@ -3,8 +3,10 @@ package com.example.betternutritions
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,11 +15,13 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
+import com.bumptech.glide.Glide
 import com.example.betternutritions.databinding.ActivityMainBinding
 import com.example.betternutritions.model.ProductData
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.GsonBuilder
+import com.google.zxing.client.android.Intents.Scan
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
@@ -38,6 +42,9 @@ class MainActivity : AppCompatActivity() {
     private val client = OkHttpClient()
     private var jsonString: String = ""
 
+    private val TAG = "TAG"
+    private val number = "CODE"
+
     //private var navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_fragment_content_main) as NavHostFragment?
     //private var navController = navHostFragment?.navController
 
@@ -55,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(ScanContract()){result: ScanIntentResult ->
             run {
                 if (result.contents == null){
-                    Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT)
+                    Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
                 }else{
                     setResult(result.contents)
                 }
@@ -63,13 +70,18 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-    private fun setResult (string: String){
-        val url = "https://world.openfoodfacts.net/api/v3/product/${string}"
-        getJson(url)
+    private fun setResult (code: String){
 
-        val scanResultView = findViewById<TextView>(R.id.scanResultView)
-        scanResultView.text = this.jsonString
+        Log.d(number,"Code: $code")
+        val eanFormatRegex = Regex ("^\\d{8}|\\d{13}$")
+        val bonareaFormat = Regex ("^00\\d{18}$")
 
+        if(!code.matches(eanFormatRegex) && !code.matches(bonareaFormat)){
+            Toast.makeText(this, "Nicht unterstützter Code gescannt: $code", Toast.LENGTH_LONG).show()
+        }else{
+            val url = "https://world.openfoodfacts.net/api/v3/product/${code}"
+            getJson(url)
+        }
     }
 
     private fun showCamera() {
@@ -157,7 +169,15 @@ class MainActivity : AppCompatActivity() {
                 val gson = gsonBuilder.create()
 
                 val products = gson.fromJson(jsonString, ProductData::class.java)
+                Log.d(TAG, "Produkt serialisiert")
                 println(products)
+
+                val scanResultView = findViewById<TextView>(R.id.scanResultView)
+                Log.d(TAG, "setting text")
+                scanResultView.text = products.product.product_name
+
+                val imageView = findViewById<ImageView>(R.id.productImage)
+                Glide.with(imageView).load(products.product.image_front_small_url).into(imageView)
             }
         })
     }

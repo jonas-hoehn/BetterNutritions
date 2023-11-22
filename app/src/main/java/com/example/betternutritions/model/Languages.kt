@@ -1,6 +1,6 @@
 package com.example.betternutritions.model
 
 data class Languages(
-    val dummy: Int
-    //val en:german: Int
+    val dummy: Double
+    //val en:german: Double
 )
