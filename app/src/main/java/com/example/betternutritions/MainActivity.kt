@@ -49,7 +49,8 @@ class MainActivity : AppCompatActivity() {
     private val number = "CODE"
 
     val productEntries: ArrayList<ProductData> = ArrayList()
-    private lateinit var adapter: ArrayAdapter<ProductData>
+    //private lateinit var adapter: ArrayAdapter<ProductData>
+    private lateinit var feedAdapter: ArrayAdapter<ProductData>
 
 
     //private var navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_fragment_content_main) as NavHostFragment?
@@ -110,10 +111,13 @@ class MainActivity : AppCompatActivity() {
         initBinding()
         setSupportActionBar(binding.toolbar)
 
-        adapter = ArrayAdapter<ProductData>(this, R.layout.list_item, productEntries)
+        /*arrayAdapter = ArrayAdapter<ProductData>(this, R.layout.list_item, productEntries)
         val jsonView: ListView = findViewById(R.id.jsonListView)
-        jsonView.adapter = adapter
+        jsonView.adapter = arrayAdapter*/
 
+        feedAdapter = FeedAdapter(this, R.layout.list_record, productEntries)
+        val jsonView: ListView = findViewById(R.id.jsonListView)
+        jsonView.adapter = feedAdapter
 
         binding.btnScan.setOnClickListener { view ->
             Snackbar.make(view, "Bar-Code Scanner aktiviert", Snackbar.LENGTH_LONG)
@@ -196,23 +200,18 @@ class MainActivity : AppCompatActivity() {
 
                 Thread {
                     runOnUiThread {
-                        val imageView = findViewById<ImageView>(R.id.productImage)
+                        /*val imageView = findViewById<ImageView>(R.id.productImage)
                         val scanResultView = findViewById<TextView>(R.id.scanResultView)
                         Log.d(TAG, "setting text")
                         scanResultView.text = products.product.product_name
                         Glide.with(imageView).load(products.product.image_front_small_url)
-                            .into(imageView)
-
-                        /*val productDetails = """
-                            Produkt: ${products.product.product_name}
-                            Marke: ${products.product.brands}
-                            Keywords: ${products.product._keywords}
-                        """.trimIndent()*/
+                            .into(imageView)*/
 
                         productEntries.add(products)
                         Log.d(TAG, "Liste befüllt")
-                        adapter.notifyDataSetChanged()
 
+                        //adapter.notifyDataSetChanged()
+                        feedAdapter.notifyDataSetChanged()
 
                     }
                 }.start()
