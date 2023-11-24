@@ -14,4 +14,7 @@
     <string name="contentOfScan">Result of the QR-Code scan</string>
     <string name="textview">TextView</string>
     <string name="kotlinBarCode" />
+    <string name="contentDescription">picture of the product</string>
+    <string name="nextFragment">next Fragment Navigation</string>
+    <string name="productname">Produktname</string>
 </resources>
