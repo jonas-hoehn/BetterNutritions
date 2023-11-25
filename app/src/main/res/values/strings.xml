@@ -17,4 +17,5 @@
     <string name="contentDescription">picture of the product</string>
     <string name="nextFragment">next Fragment Navigation</string>
     <string name="productname">Produktname</string>
+    <string name="backToHomeScreen" />
 </resources>

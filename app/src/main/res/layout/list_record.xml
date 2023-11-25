@@ -16,7 +16,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/productPicture"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -30,7 +30,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/productPicture"
         app:layout_constraintTop_toBottomOf="@+id/productName" />
 
     <TextView
@@ -42,16 +42,38 @@
         android:layout_marginEnd="16dp"
         android:text="Nutriscore"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/productPicture"
         app:layout_constraintTop_toBottomOf="@+id/productBrand" />
 
-    <ImageView
-        android:id="@+id/productPicture"
+    <!--<ImageView
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productNutriScore"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
+        app:srcCompat="@drawable/ic_launcher_foreground" />-->
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/productPicture"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="300dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_launcher_foreground"
+        app:contentPaddingBottom="20dp"
+        app:contentPaddingTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:shapeAppearanceOverlay="@style/rounded_corners"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

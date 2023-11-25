@@ -20,6 +20,7 @@ import androidx.navigation.ui.navigateUp
 import com.bumptech.glide.Glide
 import com.example.betternutritions.databinding.ActivityMainBinding
 import com.example.betternutritions.databinding.ContentMainBinding
+import com.example.betternutritions.databinding.FragmentFirstBinding
 import com.example.betternutritions.model.ProductData
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.GsonBuilder
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var cBinding: ContentMainBinding
+    private lateinit var fBinding: FragmentFirstBinding
 
     private val client = OkHttpClient()
     private var jsonString: String = ""
@@ -131,6 +133,12 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.nav_fragment_content_main, FirstFragment()).commit()
         }
+
+        /*fBinding.btnBackToHomeScreen.setOnClickListener { view ->
+            Snackbar.make(view, "Zurück zum Homescreen", Snackbar.LENGTH_LONG).show()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.nav_fragment_content_main, SecondFragment()).commit()
+        }*/
     }
 
     private fun initBinding() {
@@ -138,6 +146,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         cBinding = ContentMainBinding.inflate(layoutInflater)
+        fBinding = FragmentFirstBinding.inflate(layoutInflater)
     }
 
 

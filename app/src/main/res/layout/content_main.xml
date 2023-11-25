@@ -8,6 +8,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:scrollbars="horizontal">
 
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_fragment_content_main"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -29,34 +30,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/productImage" />
-
-    <TextView
-        android:id="@+id/scanResultView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/productname"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.17000002" />
-
-
-    <ImageView
-        android:id="@+id/productImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/tealBlue"
-        android:contentDescription="@string/contentDescription"
-        android:importantForAccessibility="no"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
-        app:layout_constraintStart_toStartOf="@+id/nav_fragment_content_main"
-        app:layout_constraintTop_toBottomOf="@+id/scanResultView"
-        app:layout_constraintBottom_toTopOf="@id/jsonListView"
-        app:srcCompat="@android:drawable/ic_menu_camera" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
