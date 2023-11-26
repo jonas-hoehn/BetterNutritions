@@ -7,9 +7,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ArrayAdapter
-import android.widget.ImageView
 import android.widget.ListView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +15,6 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import com.bumptech.glide.Glide
 import com.example.betternutritions.databinding.ActivityMainBinding
 import com.example.betternutritions.databinding.ContentMainBinding
 import com.example.betternutritions.databinding.FragmentFirstBinding
@@ -28,13 +25,13 @@ import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 import okhttp3.Call
-
 import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
-import kotlin.properties.Delegates
+import java.security.AccessController.getContext
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
@@ -44,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cBinding: ContentMainBinding
     private lateinit var fBinding: FragmentFirstBinding
 
-    private val client = OkHttpClient()
+    private lateinit var client: OkHttpClient
     private var jsonString: String = ""
 
     private val TAG = "TAG"
@@ -84,13 +81,15 @@ class MainActivity : AppCompatActivity() {
         Log.d(number, "Code: $code")
         val eanFormatRegex = Regex("^\\d{8}|\\d{13}$")
         val bonareaFormat = Regex("^00\\d{18}$")
+        val ucpaFormat = Regex("^[0-9]{12}\$")
 
-        if (!code.matches(eanFormatRegex) && !code.matches(bonareaFormat)) {
+        if (!code.matches(eanFormatRegex) && !code.matches(bonareaFormat) && !code.matches(ucpaFormat)) {
             Toast.makeText(this, "Nicht unterstützter Code gescannt: $code", Toast.LENGTH_LONG)
                 .show()
         } else {
-            val url = "https://world.openfoodfacts.net/api/v3/product/${code}"
-            serializeProduct(url)
+            // Alternative URL could be "https://world.openfoodfacts.org/api/v3/product/${code}"
+
+            serializeProduct(code)
         }
     }
 
@@ -109,6 +108,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        client = OkHttpClient.Builder()
+            .connectTimeout(3, TimeUnit.SECONDS)
+            .build()
 
         initBinding()
         setSupportActionBar(binding.toolbar)
@@ -187,12 +190,14 @@ class MainActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
-    private fun serializeProduct(url: String) {
+    private fun serializeProduct(code: String) {
 
+        val url = "https://world.openfoodfacts.net/api/v3/product/${code}"
         val request = Request.Builder()
             .url(url)
             .build()
 
+        Log.d(TAG, url)
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {}
 
@@ -216,11 +221,16 @@ class MainActivity : AppCompatActivity() {
                         Glide.with(imageView).load(products.product.image_front_small_url)
                             .into(imageView)*/
 
-                        productEntries.add(products)
-                        Log.d(TAG, "Liste befüllt")
+                        if (products.status != "failure") {
+                            productEntries.add(products)
+                            Log.d(TAG, "Liste befüllt")
+                            Log.d(TAG, products.toString())
 
-                        //adapter.notifyDataSetChanged()
-                        feedAdapter.notifyDataSetChanged()
+                            //adapter.notifyDataSetChanged()
+                            feedAdapter.notifyDataSetChanged()
+                        } else {
+                            Toast.makeText(applicationContext, "Keine Produktinformation für den Barcode ${code} vorhanden.", Toast.LENGTH_SHORT).show()
+                        }
 
                     }
                 }.start()
