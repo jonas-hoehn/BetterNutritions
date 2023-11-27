@@ -45,17 +45,6 @@
         app:fabCradleVerticalOffset="10dp">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btn_nextFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="@dimen/fab_margin"
-            android:layout_marginBottom="16dp"
-            android:contentDescription="@string/nextFragment"
-            app:layout_anchor="@id/bottomAppBar"
-            app:srcCompat="@android:drawable/ic_media_next" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_scan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
