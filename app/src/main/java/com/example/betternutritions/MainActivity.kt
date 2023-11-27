@@ -137,7 +137,7 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.nav_fragment_content_main, FirstFragment()).commit()
         }
 
-        /*fBinding.btnBackToHomeScreen.setOnClickListener { view ->
+        /*cBinding.btnBack.setOnClickListener { view ->
             Snackbar.make(view, "Zurück zum Homescreen", Snackbar.LENGTH_LONG).show()
             supportFragmentManager.beginTransaction()
                 .replace(R.id.nav_fragment_content_main, SecondFragment()).commit()
@@ -178,8 +178,14 @@ class MainActivity : AppCompatActivity() {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+
+        val id = item.itemId
+        if (id == R.id.settings){
+            Toast.makeText(this, "Open Settings", Toast.LENGTH_LONG).show()
+        }
+
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.search_button -> true
             else -> super.onOptionsItemSelected(item)
         }
     }

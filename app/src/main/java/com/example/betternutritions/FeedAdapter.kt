@@ -40,7 +40,7 @@ class FeedAdapter(context: Context, val resource: Int, val products: List<Produc
         productName.text = currentProduct.product.product_name
         productBrand.text = currentProduct.product.brands
         val nutriscore = if (currentProduct.product.nutriscore_score != null) currentProduct.product.nutriscore_score.toString() else  "?"
-        productNutriscore.text = "Nutriscore: " + nutriscore + "/100"
+        productNutriscore.text = "Nutriscore: $nutriscore/100"
         Glide.with(productPicture).load(currentProduct.product.image_url)
             .into(productPicture)
 

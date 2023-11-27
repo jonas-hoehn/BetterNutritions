@@ -5,21 +5,28 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/lightPink"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/main_menu_gradient">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/lightPink"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="#e2e2e2"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:backgroundTint="@color/design_default_color_primary" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_border"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="Better Nutritions" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -32,9 +39,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:backgroundTint="@color/lightPink"
+        android:backgroundTint="#c9d6ff"
         app:fabCradleMargin="10dp"
-        app:fabCradleRoundedCornerRadius="10dp"
+        app:fabCradleRoundedCornerRadius="50dp"
         app:fabCradleVerticalOffset="10dp">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
