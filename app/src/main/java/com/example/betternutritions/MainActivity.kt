@@ -3,20 +3,16 @@ package com.example.betternutritions
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.Composable
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -45,29 +41,95 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var cBinding: ContentMainBinding
     private lateinit var fBinding: FragmentFirstBinding
+    private lateinit var firstFragment: FirstFragment
 
-    private lateinit var client: OkHttpClient
-    private var jsonString: String = ""
+
 
     private val TAG = "TAG"
     private val number = "CODE"
 
+
+    //private var navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_fragment_content_main) as NavHostFragment?
+    //private var navController = navHostFragment?.navController
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                showCamera()
+            } else {
+                TODO()
+            }
+        }
+
+    private val scanLauncher =
+        registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
+            run {
+                if (result.contents == null) {
+                    Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
+                } else {
+                    firstFragment.setContentResult(result.contents)
+                }
+            }
+
+        }
+
+
+
+    private fun showCamera() {
+        val options = ScanOptions()
+        options.setDesiredBarcodeFormats(ScanOptions.ALL_CODE_TYPES)
+        options.setPrompt("Scan QR Code")
+        options.setCameraId(0)
+        options.setBeepEnabled(false)
+        options.setBarcodeImageEnabled(true)
+        options.setOrientationLocked(false)
+
+        scanLauncher.launch(options)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        fBinding = FragmentFirstBinding.inflate(layoutInflater)
 
-        binding.btnScan.setOnClickListener {
-            val fragmentFirst: FirstFragment = FirstFragment()
-            Log.d(TAG, "button gedrückt")
-            fragmentFirst.checkPermissionCamera(this)
+        setContentView(R.layout.fragment_first)
+
+        initBinding()
+        setSupportActionBar(binding.toolbar)
+
+        firstFragment = FirstFragment()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.nav_fragment_content_main, firstFragment).commit()
+
+
+        binding.btnScan.setOnClickListener { view ->
+            Snackbar.make(view, "Bar-Code Scanner aktiviert", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+
+            checkPermissionCamera(this)
         }
 
     }
 
-    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
-        return super.onCreateView(name, context, attrs)
+    private fun initBinding() {
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        cBinding = ContentMainBinding.inflate(layoutInflater)
+        fBinding = FragmentFirstBinding.inflate(layoutInflater)
+    }
+
+
+    private fun checkPermissionCamera(context: Context) {
+        if (ContextCompat.checkSelfPermission(
+                context,
+                android.Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            showCamera()
+        } else if (shouldShowRequestPermissionRationale(android.Manifest.permission.CAMERA)) {
+            Toast.makeText(context, "CAMERA permission required", Toast.LENGTH_LONG).show()
+        } else {
+            requestPermissionLauncher.launch(android.Manifest.permission.CAMERA)
+        }
     }
 
 
@@ -85,7 +147,6 @@ class MainActivity : AppCompatActivity() {
         val id = item.itemId
         if (id == R.id.settings){
             Toast.makeText(this, "Open Settings", Toast.LENGTH_LONG).show()
-
         }
 
         return when (item.itemId) {
@@ -99,8 +160,6 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
-
-
 
 
 }
