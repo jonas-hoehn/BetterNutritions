@@ -6,10 +6,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.manager.SupportRequestManagerFragment
 import com.example.betternutritions.databinding.FragmentFirstBinding
 import com.example.betternutritions.model.ProductData
 import com.google.gson.GsonBuilder
@@ -32,6 +41,7 @@ class FirstFragment : Fragment() {
     private lateinit var client: OkHttpClient
     private var jsonString: String = ""
     private val binding get() = _binding!!
+    private lateinit var view: View
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -44,13 +54,13 @@ class FirstFragment : Fragment() {
             .build()
 
 
-        feedAdapter = FeedAdapter(requireContext(), R.layout.list_record, productEntries)
+        feedAdapter = FeedAdapter(requireContext(), R.layout.list_item_cardview, productEntries)
         val jsonView: ListView = binding.jsonListView
         jsonView.adapter = feedAdapter
 
+        view = inflater.inflate(R.layout.fragment_first, container, false)
 
-
-
+        /*binding.textviewFirst.setOnClickListener { Navigation.findNavController(view).navigate(R.id.navigateToSecondFragment) }*/
 
         return binding.root
     }
@@ -124,6 +134,25 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val navHostFragment = parentFragmentManager.findFragmentById(R.id.nav_fragment_content_main)
+        val navController = navHostFragment?.findNavController()
+
+
+        view.findViewById<ListView>(R.id.jsonListView).onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            val productData: ProductData = parent.getItemAtPosition(position) as ProductData
+            val selectedItem = productData.toString()
+            Log.d(TAG, "Liste $selectedItem")
+            Toast.makeText(requireContext(), "Clicked: $selectedItem", Toast.LENGTH_SHORT).show()
+        }
+
+        view.findViewById<TextView>(R.id.textview_first).setOnClickListener {
+            Log.d(TAG, "Nummer gedrückt")
+            navController?.navigate(R.id.navigateToSecondFragment) }
+
+
+        view.findViewById<Button>(R.id.naechsteSeite).setOnClickListener {
+            navController?.navigate(R.id.navigateToSecondFragment) }
+        Log.d(TAG, "NavController")
     }
 
     override fun onDestroyView() {

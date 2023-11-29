@@ -9,6 +9,7 @@
     tools:context=".MainActivity"
     android:background="@drawable/main_menu_gradient">
 
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"

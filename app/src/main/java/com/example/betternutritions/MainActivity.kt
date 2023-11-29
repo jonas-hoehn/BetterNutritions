@@ -2,10 +2,12 @@ package com.example.betternutritions
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.Toast
@@ -90,7 +92,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.fragment_first)
+        /*setContentView(R.layout.fragment_first)*/
 
         initBinding()
         setSupportActionBar(binding.toolbar)

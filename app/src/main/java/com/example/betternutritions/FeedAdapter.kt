@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
 import com.bumptech.glide.Glide
 import com.example.betternutritions.model.ProductData
 
@@ -34,6 +36,7 @@ class FeedAdapter(context: Context, val resource: Int, val products: List<Produc
         val productBrand: TextView = view.findViewById(R.id.productBrand)
         val productNutriscore: TextView = view.findViewById(R.id.productNutriScore)
         val productPicture: ImageView = view.findViewById(R.id.productPicture)
+        //val nutriScoreBar: ProgressBar = view.findViewById(R.id.nutriScoreProgressBar)
 
         val currentProduct = products[position]
 
@@ -43,6 +46,16 @@ class FeedAdapter(context: Context, val resource: Int, val products: List<Produc
         productNutriscore.text = "Nutriscore: $nutriscore/100"
         Glide.with(productPicture).load(currentProduct.product.image_url)
             .into(productPicture)
+
+        val titleTypeFace = ResourcesCompat.getFont(context, R.font.montserrat_semibold)
+        productName.typeface = titleTypeFace
+
+        val subtitleTypeFace = ResourcesCompat.getFont(context, R.font.montserrat_medium)
+        productBrand.typeface = subtitleTypeFace
+
+        val nutriscoreTypeFace = ResourcesCompat.getFont(context, R.font.montserrat_medium)
+        productNutriscore.typeface = nutriscoreTypeFace
+
 
         return view
     }
