@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
 import com.example.betternutritions.databinding.ActivityMainBinding
 import com.example.betternutritions.databinding.ContentMainBinding
 import com.example.betternutritions.databinding.FragmentHomeBinding
@@ -52,8 +53,8 @@ class MainActivity : AppCompatActivity() {
     private val number = "CODE"
 
 
-    private var navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_fragment_content_main) as NavHostFragment?
-    private var navController = navHostFragment?.navController
+    //private var navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_fragment_content_main) as NavHostFragment?
+    //private var navController = navHostFragment?.navController
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -92,7 +93,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main)
         //navController = findNavController(R.id.nav_host_fragment_content_main)
         initBinding()
         fragmentHome = HomeFragment()
@@ -101,7 +102,7 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigationView = this.findViewById(R.id.bottomNavigationView)
         drawerLayout = findViewById(R.id.drawer_layout)
-        val navigationView: NavigationView = findViewById(R.id.nav_view)
+        //val navigationView: NavigationView = findViewById(R.id.nav_view)
 
         setSupportActionBar(binding.toolbar)
         val toggle: ActionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -110,7 +111,7 @@ class MainActivity : AppCompatActivity() {
 
         if(savedInstanceState == null){
             supportFragmentManager.beginTransaction().replace(R.id.frame_layout, HomeFragment()).commit()
-            navigationView.setCheckedItem(R.id.nav_home)
+            //navigationView.setCheckedItem(R.id.nav_home)
         }
 
 
@@ -150,8 +151,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showBottomNavigationBar(barVisibility: Int, fabVisibility: Int) {
-        binding.navView.visibility = if (barVisibility == 0) BottomAppBar.VISIBLE else BottomAppBar.GONE
-        if (fabVisibility == 0) binding.btnScan.show() else binding.btnScan.hide()
+        //binding.navView.visibility = if (barVisibility == 0) BottomAppBar.VISIBLE else BottomAppBar.GONE
+        //if (fabVisibility == 0) binding.btnScan.show() else binding.btnScan.hide()
 
 
     }
@@ -232,7 +233,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-/*    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+   /* override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -246,13 +247,13 @@ class MainActivity : AppCompatActivity() {
             R.id.search_button -> true
             else -> super.onOptionsItemSelected(item)
         }
-    }
+    }*/
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
-    }*/
+    }
 
 
 }
