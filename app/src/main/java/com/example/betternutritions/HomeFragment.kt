@@ -12,14 +12,10 @@ import android.widget.Button
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.manager.SupportRequestManagerFragment
-import com.example.betternutritions.databinding.FragmentFirstBinding
+import com.example.betternutritions.databinding.FragmentHomeBinding
 import com.example.betternutritions.model.ProductData
 import com.google.gson.GsonBuilder
 import okhttp3.Call
@@ -30,9 +26,9 @@ import okhttp3.Response
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-class FirstFragment : Fragment() {
+class HomeFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentHomeBinding? = null
     private val TAG = "TAG"
 
     val productEntries: ArrayList<ProductData> = ArrayList()
@@ -43,12 +39,16 @@ class FirstFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var view: View
 
+    private var navHostFragment = parentFragmentManager.findFragmentById(R.id.nav_fragment_content_main) as NavHostFragment?
+    private var navController = navHostFragment?.navController
+
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
 
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
         client = OkHttpClient.Builder()
             .connectTimeout(3, TimeUnit.SECONDS)
             .build()
@@ -58,7 +58,7 @@ class FirstFragment : Fragment() {
         val jsonView: ListView = binding.jsonListView
         jsonView.adapter = feedAdapter
 
-        view = inflater.inflate(R.layout.fragment_first, container, false)
+        view = inflater.inflate(R.layout.fragment_home, container, false)
 
         /*binding.textviewFirst.setOnClickListener { Navigation.findNavController(view).navigate(R.id.navigateToSecondFragment) }*/
 
@@ -134,9 +134,7 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val navHostFragment = parentFragmentManager.findFragmentById(R.id.nav_fragment_content_main)
-        val navController = navHostFragment?.findNavController()
-
+        //val navController = findNavController()
 
         view.findViewById<ListView>(R.id.jsonListView).onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
             val productData: ProductData = parent.getItemAtPosition(position) as ProductData
@@ -147,11 +145,13 @@ class FirstFragment : Fragment() {
 
         view.findViewById<TextView>(R.id.textview_first).setOnClickListener {
             Log.d(TAG, "Nummer gedrückt")
-            navController?.navigate(R.id.navigateToSecondFragment) }
+            //findNavController().navigate(R.id.navigateToSecondFragment)
+            }
 
 
         view.findViewById<Button>(R.id.naechsteSeite).setOnClickListener {
-            navController?.navigate(R.id.navigateToSecondFragment) }
+            navController?.navigate(R.id.navigateToSecondFragment)
+            }
         Log.d(TAG, "NavController")
     }
 

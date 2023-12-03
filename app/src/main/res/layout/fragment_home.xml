@@ -2,11 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    android:scrollbars="horizontal">
+    android:scrollbars="horizontal"
+    tools:context=".HomeFragment"
+    android:id="@+id/TEST">
+    
 
     <TextView
         android:id="@+id/textview_first"
@@ -50,6 +52,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview_first"
         />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

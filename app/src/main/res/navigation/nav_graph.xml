@@ -3,18 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.example.betternutritions.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:id="@+id/homeFragment"
+        android:name="com.example.betternutritions.HomeFragment"
+        android:label="@string/home_fragment_label"
+        tools:layout="@layout/fragment_home">
 
         <action
             android:id="@+id/navigateToSecondFragment"
             app:destination="@id/SecondFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/SecondFragment"
         android:name="com.example.betternutritions.SecondFragment"
@@ -23,6 +24,6 @@
 
         <action
             android:id="@+id/navigateToFirstFragment"
-            app:destination="@id/FirstFragment" />
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

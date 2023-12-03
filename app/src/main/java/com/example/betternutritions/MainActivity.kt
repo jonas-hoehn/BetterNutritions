@@ -1,40 +1,39 @@
 package com.example.betternutritions
 
+import android.app.Dialog
 import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Build
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
+import android.view.Gravity
 import android.view.Menu
-import android.view.MenuItem
-import android.view.WindowManager
-import android.widget.ArrayAdapter
-import android.widget.ListView
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
 import com.example.betternutritions.databinding.ActivityMainBinding
 import com.example.betternutritions.databinding.ContentMainBinding
-import com.example.betternutritions.databinding.FragmentFirstBinding
-import com.example.betternutritions.model.ProductData
-import com.google.android.material.snackbar.Snackbar
-import com.google.gson.GsonBuilder
+import com.example.betternutritions.databinding.FragmentHomeBinding
+import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import java.io.IOException
-import java.security.AccessController.getContext
-import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
@@ -42,17 +41,19 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var cBinding: ContentMainBinding
-    private lateinit var fBinding: FragmentFirstBinding
-    private lateinit var firstFragment: FirstFragment
+    private lateinit var hBinding: FragmentHomeBinding
+    private lateinit var fragmentHome: HomeFragment
 
+    lateinit var drawerLayout: DrawerLayout
+    lateinit var bottomNavigationView: BottomNavigationView
 
 
     private val TAG = "TAG"
     private val number = "CODE"
 
 
-    //private var navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_fragment_content_main) as NavHostFragment?
-    //private var navController = navHostFragment?.navController
+    private var navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_fragment_content_main) as NavHostFragment?
+    private var navController = navHostFragment?.navController
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -69,12 +70,11 @@ class MainActivity : AppCompatActivity() {
                 if (result.contents == null) {
                     Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
                 } else {
-                    firstFragment.setContentResult(result.contents)
+                    fragmentHome.setContentResult(result.contents)
                 }
             }
 
         }
-
 
 
     private fun showCamera() {
@@ -92,31 +92,122 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /*setContentView(R.layout.fragment_first)*/
-
+        //setContentView(R.layout.activity_main)
+        //navController = findNavController(R.id.nav_host_fragment_content_main)
         initBinding()
-        setSupportActionBar(binding.toolbar)
-
-        firstFragment = FirstFragment()
+        fragmentHome = HomeFragment()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.nav_fragment_content_main, firstFragment).commit()
+            .replace(R.id.nav_host_fragment_content_main, fragmentHome).commit()
+
+        bottomNavigationView = this.findViewById(R.id.bottomNavigationView)
+        drawerLayout = findViewById(R.id.drawer_layout)
+        val navigationView: NavigationView = findViewById(R.id.nav_view)
+
+        setSupportActionBar(binding.toolbar)
+        val toggle: ActionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        if(savedInstanceState == null){
+            supportFragmentManager.beginTransaction().replace(R.id.frame_layout, HomeFragment()).commit()
+            navigationView.setCheckedItem(R.id.nav_home)
+        }
 
 
-        binding.btnScan.setOnClickListener { view ->
+        replaceFragment(HomeFragment())
+
+        binding.bottomNavigationView.background = null
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> replaceFragment(HomeFragment())
+                R.id.search -> replaceFragment(SearchFragment())
+                R.id.settings -> replaceFragment(SettingsFragments())
+                R.id.library -> replaceFragment(LibraryFragment())
+            }
+            true
+        }
+
+        val barVisibility: Int = binding.bottomAppBar.visibility
+        val btnScanVisibility: Int = binding.btnScan.visibility
+        binding.btnScan.setOnClickListener(View.OnClickListener { showBottomDialog() })
+        showBottomNavigationBar(barVisibility, btnScanVisibility)
+
+
+
+
+
+
+        /* ---------------------------------------------------------------------------------------------*/
+
+
+/*        binding.btnScan.setOnClickListener { view ->
             Snackbar.make(view, "Bar-Code Scanner aktiviert", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
 
             checkPermissionCamera(this)
-        }
+        }*/
 
     }
 
+    private fun showBottomNavigationBar(barVisibility: Int, fabVisibility: Int) {
+        binding.navView.visibility = if (barVisibility == 0) BottomAppBar.VISIBLE else BottomAppBar.GONE
+        if (fabVisibility == 0) binding.btnScan.show() else binding.btnScan.hide()
+
+
+    }
+
+
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager: FragmentManager = supportFragmentManager
+        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frame_layout, fragment)
+        fragmentTransaction.commit()
+    }
+
+    private fun showBottomDialog() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.bottomsheetlayout)
+        val scanProduct = dialog.findViewById<LinearLayout>(R.id.scanProduct)
+        val shortsLayout = dialog.findViewById<LinearLayout>(R.id.layoutShorts)
+        val liveLayout = dialog.findViewById<LinearLayout>(R.id.layoutLive)
+        val cancelButton = dialog.findViewById<ImageView>(R.id.cancelButton)
+
+        scanProduct.setOnClickListener {
+            dialog.dismiss()
+            Toast.makeText(this@MainActivity, "Bar-Code Scanner aktiviert", Toast.LENGTH_LONG).show()
+
+            checkPermissionCamera(this)
+        }
+        shortsLayout.setOnClickListener {
+            dialog.dismiss()
+            Toast.makeText(this@MainActivity, "Create a short is Clicked", Toast.LENGTH_SHORT)
+                .show()
+        }
+        liveLayout.setOnClickListener {
+            dialog.dismiss()
+            Toast.makeText(this@MainActivity, "Go live is Clicked", Toast.LENGTH_SHORT).show()
+        }
+        cancelButton.setOnClickListener { dialog.dismiss() }
+        dialog.show()
+        dialog.window!!.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+        dialog.window!!.setGravity(Gravity.BOTTOM)
+    }
+
+    /*-----------------------------------------------------------------------------------------------------*/
+
+
     private fun initBinding() {
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
         cBinding = ContentMainBinding.inflate(layoutInflater)
-        fBinding = FragmentFirstBinding.inflate(layoutInflater)
+        hBinding = FragmentHomeBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
     }
 
 
@@ -141,13 +232,13 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+/*    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
 
         val id = item.itemId
-        if (id == R.id.settings){
+        if (id == R.id.settings) {
             Toast.makeText(this, "Open Settings", Toast.LENGTH_LONG).show()
         }
 
@@ -158,10 +249,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_fragment_content_main)
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
-    }
+    }*/
 
 
 }

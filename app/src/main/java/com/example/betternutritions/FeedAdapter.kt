@@ -47,13 +47,13 @@ class FeedAdapter(context: Context, val resource: Int, val products: List<Produc
         Glide.with(productPicture).load(currentProduct.product.image_url)
             .into(productPicture)
 
-        val titleTypeFace = ResourcesCompat.getFont(context, R.font.montserrat_semibold)
+        val titleTypeFace = ResourcesCompat.getFont(context, R.font.montserrat_regular)
         productName.typeface = titleTypeFace
 
-        val subtitleTypeFace = ResourcesCompat.getFont(context, R.font.montserrat_medium)
+        val subtitleTypeFace = ResourcesCompat.getFont(context, R.font.montserrat_regular)
         productBrand.typeface = subtitleTypeFace
 
-        val nutriscoreTypeFace = ResourcesCompat.getFont(context, R.font.montserrat_medium)
+        val nutriscoreTypeFace = ResourcesCompat.getFont(context, R.font.montserrat_regular)
         productNutriscore.typeface = nutriscoreTypeFace
 
 
