@@ -39,8 +39,8 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var view: View
 
-    private var navHostFragment = parentFragmentManager.findFragmentById(R.id.nav_fragment_content_main) as NavHostFragment?
-    private var navController = navHostFragment?.navController
+   // private var navHostFragment = parentFragmentManager.findFragmentById(R.id.nav_fragment_content_main) as NavHostFragment?
+    // private var navController = navHostFragment?.navController
 
 
     override fun onCreateView(
@@ -150,7 +150,7 @@ class HomeFragment : Fragment() {
 
 
         view.findViewById<Button>(R.id.naechsteSeite).setOnClickListener {
-            navController?.navigate(R.id.navigateToSecondFragment)
+            //navController?.navigate(R.id.navigateToSecondFragment)
             }
         Log.d(TAG, "NavController")
     }

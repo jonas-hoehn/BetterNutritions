@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/nav_home">
 
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/nav_home"
         android:name="com.example.betternutritions.HomeFragment"
         android:label="@string/home_fragment_label"
         tools:layout="@layout/fragment_home">
@@ -24,6 +24,6 @@
 
         <action
             android:id="@+id/navigateToFirstFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/nav_home" />
     </fragment>
 </navigation>

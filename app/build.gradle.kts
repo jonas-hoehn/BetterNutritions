@@ -50,6 +50,7 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation ("androidx.fragment:fragment:1.2.5")
     testImplementation("junit:junit:4.13.2")
     implementation ("androidx.compose.ui:ui:1.5.4")
 

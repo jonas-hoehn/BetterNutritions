@@ -22,9 +22,13 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.betternutritions.databinding.ActivityMainBinding
 import com.example.betternutritions.databinding.ContentMainBinding
 import com.example.betternutritions.databinding.FragmentHomeBinding
@@ -44,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var hBinding: FragmentHomeBinding
     private lateinit var fragmentHome: HomeFragment
 
-    lateinit var drawerLayout: DrawerLayout
+    //lateinit var drawerLayout: DrawerLayout
     lateinit var bottomNavigationView: BottomNavigationView
 
 
@@ -52,8 +56,8 @@ class MainActivity : AppCompatActivity() {
     private val number = "CODE"
 
 
-    private var navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_fragment_content_main) as NavHostFragment?
-    private var navController = navHostFragment?.navController
+    //private var navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_fragment_content_main) as NavHostFragment?
+    //private var navController = navHostFragment?.navController
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -92,15 +96,27 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //setContentView(R.layout.activity_main)
-        //navController = findNavController(R.id.nav_host_fragment_content_main)
+        setContentView(R.layout.activity_main)
         initBinding()
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        //val navController = findNavController(R.id.nav_host_fragment_content_main)
+        val navView : NavigationView = binding.navView
+        val drawerLayout = binding.drawerLayout
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_home), drawerLayout
+            )
+
+
+
         fragmentHome = HomeFragment()
         supportFragmentManager.beginTransaction()
             .replace(R.id.nav_host_fragment_content_main, fragmentHome).commit()
 
         bottomNavigationView = this.findViewById(R.id.bottomNavigationView)
-        drawerLayout = findViewById(R.id.drawer_layout)
+
         val navigationView: NavigationView = findViewById(R.id.nav_view)
 
         setSupportActionBar(binding.toolbar)
@@ -246,13 +262,13 @@ class MainActivity : AppCompatActivity() {
             R.id.search_button -> true
             else -> super.onOptionsItemSelected(item)
         }
-    }
+    } */
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
-    }*/
+    }
 
 
 }
