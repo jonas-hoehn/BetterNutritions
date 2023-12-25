@@ -12,6 +12,6 @@
         android:text="Settings"
         android:gravity="center"
         android:textSize="30sp"
-        android:textColor="@color/lavender"/>
+        android:textColor="@color/black"/>
 
 </FrameLayout>

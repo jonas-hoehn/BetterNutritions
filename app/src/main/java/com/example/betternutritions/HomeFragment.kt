@@ -148,10 +148,10 @@ class HomeFragment : Fragment() {
             //findNavController().navigate(R.id.navigateToSecondFragment)
             }
 
-
-        view.findViewById<Button>(R.id.naechsteSeite).setOnClickListener {
-            //navController?.navigate(R.id.navigateToSecondFragment)
-            }
+        view.findViewById<Button>(R.id.btn_next_page).setOnClickListener {
+           
+        }
+        
         Log.d(TAG, "NavController")
     }
 

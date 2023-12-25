@@ -15,14 +15,14 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/productPicture"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:id="@+id/productPicture"
-            android:src="@drawable/ic_launcher_foreground"
-            android:scaleType="centerCrop"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_foreground"
             app:shapeAppearanceOverlay="@style/roundImage" />
 
         <TextView
@@ -48,7 +48,7 @@
         <TextView
             android:id="@+id/productNutriScore"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/productName"
             android:layout_marginStart="30dp"
             android:layout_marginTop="8dp"

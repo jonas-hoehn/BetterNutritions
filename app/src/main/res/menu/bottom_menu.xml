@@ -16,13 +16,13 @@
         android:title="" />
 
     <item
-        android:title="@string/action_settings"
-        android:id="@+id/settings"
-        android:icon="@drawable/baseline_settings_24"/>
-
-    <item
         android:id="@+id/library"
         android:title="Library"
         android:icon="@drawable/baseline_library_books_24" />
+
+    <item
+        android:title="@string/action_settings"
+        android:id="@+id/settings"
+        android:icon="@drawable/baseline_settings_24"/>
 
 </menu>

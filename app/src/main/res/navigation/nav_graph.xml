@@ -14,6 +14,9 @@
         <action
             android:id="@+id/navigateToSecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/navigateToSettingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
 
     <fragment
@@ -25,5 +28,13 @@
         <action
             android:id="@+id/navigateToFirstFragment"
             app:destination="@id/nav_home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.betternutritions.SettingsFragments"
+        android:label="@string/Settings_Fragment"
+        tools:layout="@layout/fragment_settings">
+
     </fragment>
 </navigation>

@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
@@ -22,6 +23,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.replace
+import androidx.lifecycle.ReportFragment.Companion.reportFragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -47,17 +50,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cBinding: ContentMainBinding
     private lateinit var hBinding: FragmentHomeBinding
     private lateinit var fragmentHome: HomeFragment
-
-    //lateinit var drawerLayout: DrawerLayout
     lateinit var bottomNavigationView: BottomNavigationView
 
 
     private val TAG = "TAG"
     private val number = "CODE"
-
-
-    //private var navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_fragment_content_main) as NavHostFragment?
-    //private var navController = navHostFragment?.navController
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -137,7 +134,10 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.home -> replaceFragment(HomeFragment())
                 R.id.search -> replaceFragment(SearchFragment())
-                R.id.settings -> replaceFragment(SettingsFragments())
+                R.id.settings -> {
+                    replaceFragment(SettingsFragments())
+                    //setContentView(R.layout.fragment_settings)
+                }
                 R.id.library -> replaceFragment(LibraryFragment())
             }
             true
