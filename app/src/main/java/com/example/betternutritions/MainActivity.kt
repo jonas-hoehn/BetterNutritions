@@ -95,52 +95,27 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
         initBinding()
+
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         val navController = navHostFragment.navController
 
-        //val navController = findNavController(R.id.nav_host_fragment_content_main)
-        val navView : NavigationView = binding.navView
-        val drawerLayout = binding.drawerLayout
+/*        val drawerLayout = binding.drawerLayout
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home), drawerLayout
-            )
+            )*/
 
-
-
-        fragmentHome = HomeFragment()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.nav_host_fragment_content_main, fragmentHome).commit()
-
-        bottomNavigationView = this.findViewById(R.id.bottomNavigationView)
 
         val navigationView: NavigationView = findViewById(R.id.nav_view)
 
         setSupportActionBar(binding.toolbar)
-        val toggle: ActionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+/*        val toggle: ActionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
+        toggle.syncState()*/
 
         if(savedInstanceState == null){
-            supportFragmentManager.beginTransaction().replace(R.id.frame_layout, HomeFragment()).commit()
+            //supportFragmentManager.beginTransaction().replace(R.id.frame_layout, HomeFragment()).commit()
             navigationView.setCheckedItem(R.id.nav_home)
-        }
-
-
-        replaceFragment(HomeFragment())
-
-        binding.bottomNavigationView.background = null
-        binding.bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.home -> replaceFragment(HomeFragment())
-                R.id.search -> replaceFragment(SearchFragment())
-                R.id.settings -> {
-                    replaceFragment(SettingsFragments())
-                    //setContentView(R.layout.fragment_settings)
-                }
-                R.id.library -> replaceFragment(LibraryFragment())
-            }
-            true
         }
 
         val barVisibility: Int = binding.bottomAppBar.visibility
@@ -148,37 +123,44 @@ class MainActivity : AppCompatActivity() {
         binding.btnScan.setOnClickListener(View.OnClickListener { showBottomDialog() })
         showBottomNavigationBar(barVisibility, btnScanVisibility)
 
+        bottomNavigationView = this.findViewById(R.id.bottomNavigationView)
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            val currentDestination = navController.currentDestination
+            val currentDestinationId = currentDestination?.id
 
+            when (item.itemId) {
+                R.id.home -> {
+                    if (currentDestinationId != R.id.nav_home)
+                        navController.navigate(R.id.navigateToHome)
+                }
+                R.id.search -> {
+                    if (currentDestinationId != R.id.searchFragment)
+                        navController.navigate(R.id.navigateToSearchFragment)
+                }
+                R.id.settings -> {
+                    if (currentDestinationId != R.id.settingsFragment)
+                        navController.navigate(R.id.navigateToSettingsFragment)
+                }
+            }
+            true
 
-
-
-
+        }
         /* ---------------------------------------------------------------------------------------------*/
 
 
-/*        binding.btnScan.setOnClickListener { view ->
-            Snackbar.make(view, "Bar-Code Scanner aktiviert", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+    }
 
-            checkPermissionCamera(this)
-        }*/
+    override fun onBackPressed() {
+        // Check if you want to prevent the app from exiting
+        super.onBackPressed() // default leaves the app
 
     }
 
     private fun showBottomNavigationBar(barVisibility: Int, fabVisibility: Int) {
         binding.navView.visibility = if (barVisibility == 0) BottomAppBar.VISIBLE else BottomAppBar.GONE
         if (fabVisibility == 0) binding.btnScan.show() else binding.btnScan.hide()
-
-
     }
 
-
-    private fun replaceFragment(fragment: Fragment) {
-        val fragmentManager: FragmentManager = supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frame_layout, fragment)
-        fragmentTransaction.commit()
-    }
 
     private fun showBottomDialog() {
         val dialog = Dialog(this)
@@ -223,7 +205,8 @@ class MainActivity : AppCompatActivity() {
         cBinding = ContentMainBinding.inflate(layoutInflater)
         hBinding = FragmentHomeBinding.inflate(layoutInflater)
 
-        setContentView(binding.root)
+        //setContentView(binding.drawerLayout)
+
     }
 
 
@@ -248,21 +231,6 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-/*    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        val id = item.itemId
-        if (id == R.id.settings) {
-            Toast.makeText(this, "Open Settings", Toast.LENGTH_LONG).show()
-        }
-
-        return when (item.itemId) {
-            R.id.search_button -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    } */
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)

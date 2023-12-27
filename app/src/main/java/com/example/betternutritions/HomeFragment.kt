@@ -24,6 +24,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
+import java.lang.Error
 import java.util.concurrent.TimeUnit
 
 class HomeFragment : Fragment() {
@@ -74,10 +75,15 @@ class HomeFragment : Fragment() {
 
         Log.d(TAG, url)
         client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {}
+            override fun onFailure(call: Call, e: IOException) {
+            }
 
             override fun onResponse(call: Call, response: Response) {
                 jsonString = response.body()?.string().toString()
+
+                if(response.code() != 200){
+                    throw Error("Wrong Code")
+                }
 
                 val gsonBuilder = GsonBuilder()
                 gsonBuilder.setLenient()
@@ -89,12 +95,6 @@ class HomeFragment : Fragment() {
 
                 Thread {
                     activity?.runOnUiThread {
-                        /*val imageView = findViewById<ImageView>(R.id.productImage)
-                        val scanResultView = findViewById<TextView>(R.id.scanResultView)
-                        Log.d(TAG, "setting text")
-                        scanResultView.text = products.product.product_name
-                        Glide.with(imageView).load(products.product.image_front_small_url)
-                            .into(imageView)*/
 
                         if (products.status != "failure") {
                             productEntries.add(products)
@@ -148,9 +148,6 @@ class HomeFragment : Fragment() {
             //findNavController().navigate(R.id.navigateToSecondFragment)
             }
 
-        view.findViewById<Button>(R.id.btn_next_page).setOnClickListener {
-           
-        }
         
         Log.d(TAG, "NavController")
     }

@@ -5,18 +5,31 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/nav_home">
 
+    <action
+        android:id="@+id/navigateToHome"
+        app:destination="@id/nav_home" />
+
+    <action
+        android:id="@+id/navigateToSettingsFragment"
+        app:destination="@id/settingsFragment" />
+    <action
+        android:id="@+id/navigateToSearchFragment"
+        app:destination="@id/searchFragment" />
+
+    <!-- end ACTIONS -->
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.betternutritions.SearchFragment"
+        android:label="Search Fragment">
+    </fragment>
+
+
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.betternutritions.HomeFragment"
         android:label="@string/home_fragment_label"
         tools:layout="@layout/fragment_home">
-
-        <action
-            android:id="@+id/navigateToSecondFragment"
-            app:destination="@id/SecondFragment" />
-        <action
-            android:id="@+id/navigateToSettingsFragment"
-            app:destination="@id/settingsFragment" />
     </fragment>
 
     <fragment
@@ -35,6 +48,5 @@
         android:name="com.example.betternutritions.SettingsFragments"
         android:label="@string/Settings_Fragment"
         tools:layout="@layout/fragment_settings">
-
     </fragment>
 </navigation>
