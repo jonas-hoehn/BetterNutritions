@@ -40,9 +40,9 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var view: View
 
-   // private var navHostFragment = parentFragmentManager.findFragmentById(R.id.nav_fragment_content_main) as NavHostFragment?
-    // private var navController = navHostFragment?.navController
-
+    // https://openfoodfacts.github.io/openfoodfacts-server/api/
+    // .org, nicht .net (.net = test environment)
+    private val url = "https://world.openfoodfacts.org/api/v3/product/"
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -63,17 +63,18 @@ class HomeFragment : Fragment() {
 
         /*binding.textviewFirst.setOnClickListener { Navigation.findNavController(view).navigate(R.id.navigateToSecondFragment) }*/
 
+        val mainActivity: MainActivity = requireActivity() as MainActivity
+        mainActivity?.setCurrentFragmentActivity(this)
+
         return binding.root
     }
 
     private fun serializeProduct(code: String) {
 
-        val url = "https://world.openfoodfacts.net/api/v3/product/${code}"
+        Log.d(TAG, url+"${code}")
         val request = Request.Builder()
-            .url(url)
+            .url(url+"${code}")
             .build()
-
-        Log.d(TAG, url)
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
             }
@@ -101,7 +102,6 @@ class HomeFragment : Fragment() {
                             Log.d(TAG, "Liste befüllt")
                             Log.d(TAG, products.toString())
 
-                            //adapter.notifyDataSetChanged()
                             feedAdapter.notifyDataSetChanged()
                         } else {
                             Toast.makeText(requireContext(), "Keine Produktinformation für den Barcode ${code} vorhanden.", Toast.LENGTH_SHORT).show()
@@ -125,8 +125,6 @@ class HomeFragment : Fragment() {
             Toast.makeText(requireContext(), "Nicht unterstützter Code gescannt: $code", Toast.LENGTH_LONG)
                 .show()
         } else {
-            // Alternative URL could be "https://world.openfoodfacts.org/api/v3/product/${code}"
-
             serializeProduct(code)
         }
     }

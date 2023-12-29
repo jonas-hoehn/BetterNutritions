@@ -8,8 +8,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
@@ -19,19 +17,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.replace
-import androidx.lifecycle.ReportFragment.Companion.reportFragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.example.betternutritions.databinding.ActivityMainBinding
 import com.example.betternutritions.databinding.ContentMainBinding
 import com.example.betternutritions.databinding.FragmentHomeBinding
@@ -45,16 +36,17 @@ import com.journeyapps.barcodescanner.ScanOptions
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var currentFragment: Fragment
+    private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var cBinding: ContentMainBinding
     private lateinit var hBinding: FragmentHomeBinding
-    private lateinit var fragmentHome: HomeFragment
-    lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var bottomNavigationView: BottomNavigationView
 
 
-    private val TAG = "TAG"
-    private val number = "CODE"
+    //private val TAG = "TAG"
+    //private val number = "CODE"
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -66,12 +58,19 @@ class MainActivity : AppCompatActivity() {
         }
 
     private val scanLauncher =
-        registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
+        registerForActivityResult(ScanContract()) {
+
+            result: ScanIntentResult ->
             run {
                 if (result.contents == null) {
                     Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
                 } else {
-                    fragmentHome.setContentResult(result.contents)
+                    navigateToHome()
+                    if (currentFragment is HomeFragment) {
+                        (currentFragment as HomeFragment).apply {
+                            setContentResult(result.contents)
+                        }
+                    }
                 }
             }
 
@@ -93,53 +92,61 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
         initBinding()
+        // DAS Folgende macht alles kaputt!
+        //setContentView(R.layout.activity_main)
+        setContentView(binding.drawerLayout)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
-        val navController = navHostFragment.navController
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
+        navController = navHostFragment.navController
 
-/*        val drawerLayout = binding.drawerLayout
+        val drawerLayout = binding.drawerLayout
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home), drawerLayout
-            )*/
+                R.id.nav_home
+            ), drawerLayout
+        )
 
 
         val navigationView: NavigationView = findViewById(R.id.nav_view)
 
         setSupportActionBar(binding.toolbar)
-/*        val toggle: ActionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()*/
 
-        if(savedInstanceState == null){
+        val toggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            binding.toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        if (savedInstanceState == null) {
             //supportFragmentManager.beginTransaction().replace(R.id.frame_layout, HomeFragment()).commit()
             navigationView.setCheckedItem(R.id.nav_home)
         }
 
         val barVisibility: Int = binding.bottomAppBar.visibility
         val btnScanVisibility: Int = binding.btnScan.visibility
-        binding.btnScan.setOnClickListener(View.OnClickListener { showBottomDialog() })
+        binding.btnScan.setOnClickListener { showBottomDialog() }
         showBottomNavigationBar(barVisibility, btnScanVisibility)
 
         bottomNavigationView = this.findViewById(R.id.bottomNavigationView)
         bottomNavigationView.setOnItemSelectedListener { item ->
-            val currentDestination = navController.currentDestination
-            val currentDestinationId = currentDestination?.id
 
             when (item.itemId) {
                 R.id.home -> {
-                    if (currentDestinationId != R.id.nav_home)
-                        navController.navigate(R.id.navigateToHome)
+                    navigateToHome()
                 }
+
                 R.id.search -> {
-                    if (currentDestinationId != R.id.searchFragment)
-                        navController.navigate(R.id.navigateToSearchFragment)
+                    navigateToSearch()
                 }
+
                 R.id.settings -> {
-                    if (currentDestinationId != R.id.settingsFragment)
-                        navController.navigate(R.id.navigateToSettingsFragment)
+                    navigateToSettings()
                 }
             }
             true
@@ -150,6 +157,25 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun navigateToSettings() {
+        val currentDestinationId = navController.currentDestination?.id
+        if (currentDestinationId != R.id.settingsFragment)
+            navController.navigate(R.id.navigateToSettingsFragment)
+    }
+
+    private fun navigateToSearch() {
+        val currentDestinationId = navController.currentDestination?.id
+        if (currentDestinationId != R.id.searchFragment)
+            navController.navigate(R.id.navigateToSearchFragment)
+    }
+
+    private fun navigateToHome() {
+        val currentDestinationId = navController.currentDestination?.id
+        if (currentDestinationId != R.id.nav_home)
+            navController.navigate(R.id.navigateToHome)
+    }
+
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         // Check if you want to prevent the app from exiting
         super.onBackPressed() // default leaves the app
@@ -157,7 +183,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showBottomNavigationBar(barVisibility: Int, fabVisibility: Int) {
-        binding.navView.visibility = if (barVisibility == 0) BottomAppBar.VISIBLE else BottomAppBar.GONE
+        binding.navView.visibility =
+            if (barVisibility == 0) BottomAppBar.VISIBLE else BottomAppBar.GONE
         if (fabVisibility == 0) binding.btnScan.show() else binding.btnScan.hide()
     }
 
@@ -173,7 +200,8 @@ class MainActivity : AppCompatActivity() {
 
         scanProduct.setOnClickListener {
             dialog.dismiss()
-            Toast.makeText(this@MainActivity, "Bar-Code Scanner aktiviert", Toast.LENGTH_LONG).show()
+            Toast.makeText(this@MainActivity, "Bar-Code Scanner aktiviert", Toast.LENGTH_LONG)
+                .show()
 
             checkPermissionCamera(this)
         }
@@ -204,9 +232,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         cBinding = ContentMainBinding.inflate(layoutInflater)
         hBinding = FragmentHomeBinding.inflate(layoutInflater)
-
-        //setContentView(binding.drawerLayout)
-
+        setContentView(binding.drawerLayout)
     }
 
 
@@ -238,5 +264,8 @@ class MainActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
+    fun setCurrentFragmentActivity(fragment: Fragment) {
+        currentFragment = fragment
+    }
 
 }
