@@ -6,6 +6,9 @@
     <color name="tealBlue">#6EB5C0</color>
     <color name="darkBlue">#83A0CD</color>
     <color name="lavender">#8692f7</color>
-
+    <color name="lightLavender">#CED3FC</color>
+    <color name="tealGreen">#e6f1ed</color>
+    <color name="focusedTealGreen">#cfd9d5</color>
+    <color name="lightGrey">#F5F5F5</color>
     <drawable name="ic_launcher_round_background">@drawable/ic_launcher_round_background</drawable>
 </resources>

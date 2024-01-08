@@ -8,13 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.example.betternutritions.databinding.FragmentHomeBinding
 import com.example.betternutritions.model.ProductData
 import com.google.gson.GsonBuilder
@@ -141,10 +137,6 @@ class HomeFragment : Fragment() {
             Toast.makeText(requireContext(), "Clicked: $selectedItem", Toast.LENGTH_SHORT).show()
         }
 
-        view.findViewById<TextView>(R.id.textview_first).setOnClickListener {
-            Log.d(TAG, "Nummer gedrückt")
-            //findNavController().navigate(R.id.navigateToSecondFragment)
-            }
 
         
         Log.d(TAG, "NavController")

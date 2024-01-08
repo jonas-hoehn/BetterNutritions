@@ -10,8 +10,10 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -193,10 +195,8 @@ class MainActivity : AppCompatActivity() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.bottomsheetlayout)
-        val scanProduct = dialog.findViewById<LinearLayout>(R.id.scanProduct)
-        val shortsLayout = dialog.findViewById<LinearLayout>(R.id.layoutShorts)
-        val liveLayout = dialog.findViewById<LinearLayout>(R.id.layoutLive)
-        val cancelButton = dialog.findViewById<ImageView>(R.id.cancelButton)
+        val scanProduct = dialog.findViewById<Button>(R.id.scanProduct)
+        val liveLayout = dialog.findViewById<TextView>(R.id.layoutLive)
 
         scanProduct.setOnClickListener {
             dialog.dismiss()
@@ -205,16 +205,7 @@ class MainActivity : AppCompatActivity() {
 
             checkPermissionCamera(this)
         }
-        shortsLayout.setOnClickListener {
-            dialog.dismiss()
-            Toast.makeText(this@MainActivity, "Create a short is Clicked", Toast.LENGTH_SHORT)
-                .show()
-        }
-        liveLayout.setOnClickListener {
-            dialog.dismiss()
-            Toast.makeText(this@MainActivity, "Go live is Clicked", Toast.LENGTH_SHORT).show()
-        }
-        cancelButton.setOnClickListener { dialog.dismiss() }
+       // cancelButton.setOnClickListener { dialog.dismiss() }
         dialog.show()
         dialog.window!!.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,

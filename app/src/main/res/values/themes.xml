@@ -2,9 +2,8 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.BetterNutritions" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="colorPrimary">@color/lavender</item>
-        <item name="colorSecondary">@color/tealBlue</item>
+        <item name="colorPrimary">@color/tealGreen</item>
+        <item name="colorSecondary">@color/focusedTealGreen</item>
         <item name="colorAccent">@color/darkBlue</item>
     </style>
 
