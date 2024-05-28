@@ -8,8 +8,7 @@ android:layout_height="match_parent"
 android:id="@+id/drawer_layout"
 android:fitsSystemWindows="true"
 tools:openDrawer="start"
-tools:context=".MainActivity" android:background="@color/lightGrey"
-    >
+tools:context=".MainActivity" android:background="@color/lightGrey">
 
     <LinearLayout
     android:layout_width="match_parent"
@@ -20,9 +19,9 @@ tools:context=".MainActivity" android:background="@color/lightGrey"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:id="@+id/toolbar"
+        android:textAlignment="center"
         android:elevation="4dp"
-        android:background="@color/tealGreen"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:background="@color/focusedTealGreen"
         android:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <FrameLayout
@@ -44,8 +43,8 @@ tools:context=".MainActivity" android:background="@color/lightGrey"
     android:layout_gravity="start"
     app:headerLayout="@layout/nav_header"
     app:menu="@menu/nav_menu"
-    app:itemIconTint="@color/focusedTealGreen"
-    app:itemTextColor="@color/focusedTealGreen"/>
+    app:itemIconTint="@color/black"
+    app:itemTextColor="@color/black"/>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -61,7 +60,8 @@ tools:context=".MainActivity" android:background="@color/lightGrey"
             app:fabCradleMargin="10dp"
             app:fabAlignmentMode="center"
             app:fabCradleRoundedCornerRadius="2dp"
-            app:hideOnScroll="true">
+            app:hideOnScroll="true"
+            android:backgroundTint="@color/white">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottomNavigationView"
@@ -69,7 +69,6 @@ tools:context=".MainActivity" android:background="@color/lightGrey"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:background="@android:color/transparent"
-                app:labelVisibilityMode="labeled"
                 app:menu="@menu/bottom_menu" />
 
         </com.google.android.material.bottomappbar.BottomAppBar>
@@ -78,6 +77,7 @@ tools:context=".MainActivity" android:background="@color/lightGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_info_24"
+            android:backgroundTint="@color/tealGreen"
             app:layout_anchor="@id/bottomAppBar"
             app:maxImageSize="20dp"
             app:fabSize="normal"

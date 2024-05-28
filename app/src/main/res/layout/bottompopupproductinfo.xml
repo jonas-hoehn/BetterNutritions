@@ -19,6 +19,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/productNameView"
+        android:hint="@string/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/scanProduct"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/scanProduct"
@@ -30,7 +40,6 @@
         android:background="@drawable/custom_textview"
         android:ems="10"
         android:hint="@android:string/cancel"
-        android:minWidth="150dp"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:text="@string/scan_product_text_label"
@@ -38,33 +47,10 @@
         android:textSize="14sp"
         app:drawableStartCompat="@drawable/baseline_info_24"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-    <androidx.appcompat.widget.AppCompatButton
-
-        android:id="@+id/goToTrainings"
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/custom_textview"
-        android:ems="10"
-        android:minWidth="150dp"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:text="@string/trainings"
-        android:textAppearance="@drawable/custom_textview"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        app:drawableStartCompat="@drawable/running"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.859"
-        app:layout_constraintStart_toEndOf="@+id/scanProduct"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.503" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

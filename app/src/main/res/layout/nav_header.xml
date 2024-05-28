@@ -6,7 +6,7 @@
     android:layout_height="176dp"
     android:gravity="bottom"
     android:padding="16dp"
-    android:background="@drawable/headerbkg"
+    android:background="@color/focusedTealGreen"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
@@ -18,14 +18,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Better Nutrition"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textStyle="bold"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="mail@jonashoehn.de"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="14sp"
         android:layout_marginBottom="16dp"/>
 

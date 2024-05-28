@@ -38,7 +38,7 @@
         <TextView
             android:id="@+id/productBrand"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
             android:layout_marginTop="25dp"
             android:layout_toEndOf="@id/productName"

@@ -13,7 +13,7 @@
         android:id="@+id/welcomeHomeBackgroundView"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@color/lightGrey"
+        android:background="@drawable/homescreen_top_banner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,8 +21,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/welcomeHomeCard"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
         android:layout_margin="8dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
@@ -43,6 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/welcome_home_message"
+                android:textAlignment="center"
                 android:textAppearance="?attr/textAppearanceTitleMedium"
                 android:fontFamily="@font/montserrat_regular"/>
         </RelativeLayout>
@@ -51,19 +52,63 @@
 
     </androidx.cardview.widget.CardView>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/verificationCard"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_margin="8dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:visibility="gone"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/welcomeHomeBackgroundView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeHomeBackgroundView"
+        app:strokeWidth="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/verificationMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/verficationMessage"
+                android:textAlignment="center"
+                android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+            <Button
+                android:id="@+id/verifyNowButton"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_below="@+id/verificationMessage"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="5dp"
+                android:text="@string/verifynow"
+                android:textColor="@color/black" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/stepsCard"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_margin="8dp"
-        android:layout_marginTop="8dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/jsonListView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcomeHomeCard"
-        app:strokeWidth="0dp">
+        app:strokeWidth="0dp"
+        android:backgroundTint="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,9 +125,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
                     android:text="@string/stepsOnDay"
-                    android:textAppearance="?attr/textAppearanceTitleMedium"
-                    android:fontFamily="@font/montserrat_regular"/>
+                    android:textAppearance="?attr/textAppearanceTitleMedium" />
 
             </LinearLayout>
 
@@ -110,10 +155,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
                     android:text="@string/currentDisplayedDay"
                     android:textAppearance="?attr/textAppearanceTitleMedium"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:textSize="10sp"/>
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp" />
 
             </LinearLayout>
 
@@ -121,24 +167,107 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <ListView
-        android:id="@+id/jsonListView"
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewCarousel"
+            android:contentDescription="@string/content_description_media"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/stepsCard"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal"
+            app:layoutManager="com.google.android.material.carousel.CarouselLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stepsCard" />
+    
+
+    <GridLayout
+        android:id="@+id/gridLayout"
         android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:layout_marginStart="16dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:clickable="true"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="10.0sp"
-        android:focusable="true"
-        android:scrollbars="vertical"
-        app:layout_constraintBaseline_toTopOf="parent"
+        android:layout_marginEnd="8dp"
+        android:columnCount="2"
+        android:rowCount="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcomeHomeCard"
-        tools:listitem="@layout/list_item_cardview" />
+        app:layout_constraintTop_toBottomOf="@id/recyclerViewCarousel">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_rowWeight="1"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/running" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Aktive Minuten"
+                    android:textAlignment="center"
+                    android:textAppearance="?attr/textAppearanceTitleMedium" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_rowWeight="1"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_food" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="@string/nutrition"
+                    android:textAlignment="center"
+                    android:textAppearance="?attr/textAppearanceTitleMedium" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </GridLayout>
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,12 +2,14 @@ package com.example.betternutritions
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.Menu
+import android.view.MenuItem
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
@@ -19,6 +21,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColor
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -31,6 +34,7 @@ import com.example.betternutritions.databinding.FragmentHomeBinding
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
@@ -77,6 +81,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+
 
 
     private fun showCamera() {
@@ -147,6 +152,10 @@ class MainActivity : AppCompatActivity() {
                     navigateToSearch()
                 }
 
+                R.id.library -> {
+                    navigateToLibrary()
+                }
+
                 R.id.settings -> {
                     navigateToSettings()
                 }
@@ -169,6 +178,12 @@ class MainActivity : AppCompatActivity() {
         val currentDestinationId = navController.currentDestination?.id
         if (currentDestinationId != R.id.searchFragment)
             navController.navigate(R.id.navigateToSearchFragment)
+    }
+
+    private fun navigateToLibrary() {
+        val currentDestinationId = navController.currentDestination?.id
+        if (currentDestinationId != R.id.libraryFragment)
+            navController.navigate(R.id.navigateToLibraryFragment)
     }
 
     private fun navigateToHome() {
@@ -196,7 +211,7 @@ class MainActivity : AppCompatActivity() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.bottomsheetlayout)
         val scanProduct = dialog.findViewById<Button>(R.id.scanProduct)
-        val liveLayout = dialog.findViewById<TextView>(R.id.layoutLive)
+        val goToTrainings = dialog.findViewById<TextView>(R.id.goToTrainings)
 
         scanProduct.setOnClickListener {
             dialog.dismiss()
@@ -204,6 +219,13 @@ class MainActivity : AppCompatActivity() {
                 .show()
 
             checkPermissionCamera(this)
+        }
+
+        goToTrainings.setOnClickListener {
+            dialog.dismiss()
+            Toast.makeText(this@MainActivity, "Trainings", Toast.LENGTH_LONG)
+                .show()
+
         }
        // cancelButton.setOnClickListener { dialog.dismiss() }
         dialog.show()
@@ -258,5 +280,13 @@ class MainActivity : AppCompatActivity() {
     fun setCurrentFragmentActivity(fragment: Fragment) {
         currentFragment = fragment
     }
+
+    fun logout(item: MenuItem) {
+        FirebaseAuth.getInstance().signOut()
+        Toast.makeText(this, "Logout successful", Toast.LENGTH_SHORT).show()
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
+    }
+
 
 }

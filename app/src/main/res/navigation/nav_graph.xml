@@ -16,6 +16,10 @@
         android:id="@+id/navigateToSearchFragment"
         app:destination="@id/searchFragment" />
 
+    <action
+        android:id="@+id/navigateToLibraryFragment"
+        app:destination="@id/libraryFragment" />
+
     <!-- end ACTIONS -->
 
     <fragment
@@ -49,4 +53,9 @@
         android:label="@string/Settings_Fragment"
         tools:layout="@layout/fragment_settings">
     </fragment>
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="com.example.betternutritions.LibraryFragment"
+        android:label="fragment_library"
+        tools:layout="@layout/fragment_library" />
 </navigation>

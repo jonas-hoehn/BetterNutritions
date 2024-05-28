@@ -35,7 +35,17 @@
     <string name="scan_product_text_label">Scan Product</string>
     <string name="button_for_popup">Button for Popup</string>
     <string name="content_description_media">test picture for media</string>
-    <string name="welcome_home_message">Welcome Home, ${user.name}!</string>
+    <string name="welcome_home_message">Welcome Home! 👋</string>
     <string name="stepsOnDay">Schritte: </string>
     <string name="currentDisplayedDay">Displayed day</string>
+    <string name="home">Home</string>
+    <string name="library">Library</string>
+    <string name="nutrition">Ernährung</string>
+    <string name="trainings">Trainings</string>
+    <string name="logout">Logout</string>
+    <string name="verficationMessage">Your email is not verified.</string>
+    <string name="verifynow">Verify now!</string>
+    <string name="profilepicture">Profile picture</string>
+    <string name="emailadress">Your Email Address</string>
+    <string name="fullname">Your Full Name</string>
 </resources>

@@ -4,7 +4,7 @@
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/tealGreen</item>
         <item name="colorSecondary">@color/focusedTealGreen</item>
-        <item name="colorAccent">@color/darkBlue</item>
+        <item name="colorAccent">@color/focusedTealGreen</item>
     </style>
 
     <style name="Theme.BetterNutritions" parent="Base.Theme.BetterNutritions" />
