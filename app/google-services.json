@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1027106274225",
+    "project_id": "better-nutritions",
+    "storage_bucket": "better-nutritions.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1027106274225:android:9a81d501624c5dbda95b90",
+        "android_client_info": {
+          "package_name": "com.example.betternutritions"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrqkUyjnMNcpI3KIUNf5VRzH1HaQnmkfY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

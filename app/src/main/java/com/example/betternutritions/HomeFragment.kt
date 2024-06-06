@@ -19,6 +19,7 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.betternutritions.databinding.FragmentHomeBinding
+import com.example.betternutritions.databinding.FragmentLibraryBinding
 import com.example.betternutritions.model.ProductData
 import com.example.carousel.ImageAdapter
 import com.example.carousel.ImageViewActivity
@@ -52,6 +53,8 @@ class HomeFragment : Fragment() {
     private lateinit var verificationCard : CardView
     private lateinit var resendCode : Button
 
+    private lateinit var lBinding: FragmentLibraryBinding
+
     // https://openfoodfacts.github.io/openfoodfacts-server/api/
     // .org, nicht .net (.net = test environment)
     private val url = "https://world.openfoodfacts.org/api/v3/product/"
@@ -81,11 +84,9 @@ class HomeFragment : Fragment() {
         feedAdapter = FeedAdapter(requireContext(), R.layout.list_item_cardview, productEntries)
 
         recyclerView = binding.recyclerViewCarousel
-        carouselPictures.add("https://images.unsplash.com/photo-1682687218608-5e2522b04673?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8")
-        carouselPictures.add("https://plus.unsplash.com/premium_photo-1703703954965-557853f5f0fd?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHx8")
-        carouselPictures.add("https://images.unsplash.com/photo-1704580104899-e99a78c4804b?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0fHx8ZW58MHx8fHx8")
-        carouselPictures.add("https://images.unsplash.com/photo-1703925154646-1a09c3380453?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHx8")
-        carouselPictures.add("https://images.unsplash.com/photo-1682687982093-4773cb0dbc2e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwyMXx8fGVufDB8fHx8fA%3D%3D")
+        carouselPictures.add("https://as1.ftcdn.net/v2/jpg/03/93/35/78/1000_F_393357864_Kt1UzwlVR4r7M5tTqqBQtjpWRDckJLNU.jpg")
+        carouselPictures.add("https://img.freepik.com/premium-vector/continuous-line-drawing-man-workout-activities-fitness-concept-isolated-white-background_554735-277.jpg?w=1800")
+        carouselPictures.add("https://gymwolf.com/images/exercises/1223_0.jpg")
         val imageAdapter= ImageAdapter(requireContext(), carouselPictures)
 
         imageAdapter.onItemClickListener = object : ImageAdapter.OnItemClickListener {
@@ -104,8 +105,10 @@ class HomeFragment : Fragment() {
 
         recyclerView.adapter = imageAdapter
 
-        //val jsonView: ListView = binding.jsonListView
-        //jsonView.adapter = feedAdapter
+        lBinding = FragmentLibraryBinding.inflate(layoutInflater)
+        val jsonListView = lBinding.jsonListView
+        val jsonView: ListView = jsonListView
+        jsonView.adapter = feedAdapter
 
         view = inflater.inflate(R.layout.fragment_home, container, false)
 
@@ -117,7 +120,7 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    private fun serializeProduct(code: String) {
+/*    private fun serializeProduct(code: String) {
 
         Log.d(TAG, url+ code)
         val request = Request.Builder()
@@ -175,7 +178,7 @@ class HomeFragment : Fragment() {
         } else {
             serializeProduct(code)
         }
-    }
+    }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

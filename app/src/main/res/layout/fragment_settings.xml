@@ -41,147 +41,118 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@drawable/baseline_settings_24"
-                android:contentDescription="@string/profilepicture" />
+                android:contentDescription="@string/profilepicture"
+                android:src="@drawable/ic_person" />
         </RelativeLayout>
 
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/personalInfoCard"
+
+    <EditText
+        android:id="@+id/profileName"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_margin="8dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
+        android:autofillHints="Name"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/custom_person_icon"
+        android:drawablePadding="12dp"
+        android:ems="10"
+        android:fontFamily="@font/montserrat_regular"
+        android:hint="@string/fullname"
+        android:inputType="textPersonName"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/welcomeHomeCard">
+        app:layout_constraintTop_toBottomOf="@+id/welcomeHomeCard" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/personPicture"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="10dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_personpin"
-                app:shapeAppearanceOverlay="@style/roundImage" />
-
-            <EditText
-                android:id="@+id/profileName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="25dp"
-                android:layout_toEndOf="@id/personPicture"
-                android:text="@string/fullname"
-                android:textSize="20sp"
-                android:fontFamily="@font/montserrat_regular"
-                android:textAppearance="?attr/textAppearanceTitleMedium"
-                android:autofillHints="Name"
-                android:inputType="textEmailAddress"/>
-
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/contactInfoCard"
+    <EditText
+        android:id="@+id/profileEmail"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_margin="8dp"
+        android:layout_height="60dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
+        android:autofillHints="Name"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/custom_email_icon"
+        android:drawablePadding="12dp"
+        android:ems="10"
+        android:fontFamily="@font/montserrat_regular"
+        android:hint="@string/emailadress"
+        android:inputType="textEmailAddress"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/personalInfoCard">
+        app:layout_constraintTop_toBottomOf="@+id/profileName" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/emailPicutre"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="10dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_email"
-                app:shapeAppearanceOverlay="@style/roundImage" />
-
-            <EditText
-                android:id="@+id/profileEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="25dp"
-                android:layout_toEndOf="@id/emailPicutre"
-                android:autofillHints="Name"
-                android:fontFamily="@font/montserrat_regular"
-                android:inputType="textEmailAddress"
-                android:text="@string/emailadress"
-                android:textAppearance="?attr/textAppearanceTitleMedium"
-                android:textSize="20sp" />
-
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/changeProfile"
         style="@style/Widget.Material3.Button.TonalButton.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="Filled tonal button"
-        app:icon="@drawable/ic_personpin"
-        app:layout_constraintBaseline_toBaselineOf="@+id/Logout"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/montserrat_regular"
-        android:textAppearance="?attr/textAppearanceTitleMedium"/>
+        android:text="Change profile"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
+        app:icon="@drawable/ic_person"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoutProfile" />
 
     <Button
         android:id="@+id/resetPassword"
         style="@style/Widget.Material3.Button.TonalButton.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="Reset password"
-        app:icon="@drawable/ic_personpin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contactInfoCard"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
         android:fontFamily="@font/montserrat_regular"
-        android:textAppearance="?attr/textAppearanceTitleMedium"/>
+        android:text="Reset password"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
+        app:icon="@drawable/ic_password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoutProfile" />
 
     <Button
-        android:id="@+id/Logout"
+        android:id="@+id/logoutProfile"
         style="@style/Widget.Material3.Button.TonalButton.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Logout"
-        app:icon="@drawable/ic_personpin"
-        app:layout_constraintBaseline_toBaselineOf="@+id/resetPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:clickable="true"
+        android:focusable="true"
         android:fontFamily="@font/montserrat_regular"
-        android:textAppearance="?attr/textAppearanceTitleMedium"/>
+        android:text="Logout"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
+        app:icon="@drawable/baseline_exit_to_app_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tButton" />
+
+    <Button
+        android:id="@+id/tButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="Button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileEmail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

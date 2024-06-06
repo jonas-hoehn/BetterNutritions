@@ -4,8 +4,8 @@
 
     <stroke
         android:width="2dp"
-        android:color="@color/focusedTealGreen" />
+        android:color="@color/md_theme_secondary" />
 
-    <corners android:radius="30dp" />
+    <corners android:radius="8dp" />
 
 </shape>

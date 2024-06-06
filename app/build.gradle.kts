@@ -70,6 +70,8 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx:23.0.0")
     implementation("com.google.firebase:firebase-storage:21.0.0")
 
+    implementation("com.google.android.material:material:1.12.0")
+
 
     //progress dialog library
     implementation("com.jpardogo.googleprogressbar:library:1.2.0")

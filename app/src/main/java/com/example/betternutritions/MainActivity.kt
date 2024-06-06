@@ -6,17 +6,22 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -31,6 +36,8 @@ import androidx.navigation.ui.navigateUp
 import com.example.betternutritions.databinding.ActivityMainBinding
 import com.example.betternutritions.databinding.ContentMainBinding
 import com.example.betternutritions.databinding.FragmentHomeBinding
+import com.example.betternutritions.databinding.FragmentLibraryBinding
+import com.example.betternutritions.databinding.FragmentSettingsBinding
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -48,6 +55,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var cBinding: ContentMainBinding
     private lateinit var hBinding: FragmentHomeBinding
+    private lateinit var sBinding: FragmentSettingsBinding
     private lateinit var bottomNavigationView: BottomNavigationView
 
 
@@ -71,9 +79,9 @@ class MainActivity : AppCompatActivity() {
                 if (result.contents == null) {
                     Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
                 } else {
-                    navigateToHome()
-                    if (currentFragment is HomeFragment) {
-                        (currentFragment as HomeFragment).apply {
+                    navigateToLibrary()
+                    if (currentFragment is LibraryFragment) {
+                        (currentFragment as LibraryFragment).apply {
                             setContentResult(result.contents)
                         }
                     }
@@ -99,6 +107,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        }
+
+
         initBinding()
         // DAS Folgende macht alles kaputt!
         //setContentView(R.layout.activity_main)
@@ -108,37 +121,13 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         navController = navHostFragment.navController
 
-        val drawerLayout = binding.drawerLayout
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_home
-            ), drawerLayout
-        )
 
 
-        val navigationView: NavigationView = findViewById(R.id.nav_view)
-
-        setSupportActionBar(binding.toolbar)
-
-        val toggle = ActionBarDrawerToggle(
-            this,
-            drawerLayout,
-            binding.toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        )
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        if (savedInstanceState == null) {
-            //supportFragmentManager.beginTransaction().replace(R.id.frame_layout, HomeFragment()).commit()
-            navigationView.setCheckedItem(R.id.nav_home)
-        }
-
+        //setSupportActionBar(binding.toolbar)
         val barVisibility: Int = binding.bottomAppBar.visibility
         val btnScanVisibility: Int = binding.btnScan.visibility
         binding.btnScan.setOnClickListener { showBottomDialog() }
-        showBottomNavigationBar(barVisibility, btnScanVisibility)
+
 
         bottomNavigationView = this.findViewById(R.id.bottomNavigationView)
         bottomNavigationView.setOnItemSelectedListener { item ->
@@ -146,10 +135,6 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.home -> {
                     navigateToHome()
-                }
-
-                R.id.search -> {
-                    navigateToSearch()
                 }
 
                 R.id.library -> {
@@ -166,6 +151,8 @@ class MainActivity : AppCompatActivity() {
         /* ---------------------------------------------------------------------------------------------*/
 
 
+
+
     }
 
     private fun navigateToSettings() {
@@ -174,11 +161,6 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.navigateToSettingsFragment)
     }
 
-    private fun navigateToSearch() {
-        val currentDestinationId = navController.currentDestination?.id
-        if (currentDestinationId != R.id.searchFragment)
-            navController.navigate(R.id.navigateToSearchFragment)
-    }
 
     private fun navigateToLibrary() {
         val currentDestinationId = navController.currentDestination?.id
@@ -199,11 +181,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun showBottomNavigationBar(barVisibility: Int, fabVisibility: Int) {
+/*    private fun showBottomNavigationBar(barVisibility: Int, fabVisibility: Int) {
         binding.navView.visibility =
             if (barVisibility == 0) BottomAppBar.VISIBLE else BottomAppBar.GONE
         if (fabVisibility == 0) binding.btnScan.show() else binding.btnScan.hide()
-    }
+    }*/
 
 
     private fun showBottomDialog() {
@@ -245,6 +227,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         cBinding = ContentMainBinding.inflate(layoutInflater)
         hBinding = FragmentHomeBinding.inflate(layoutInflater)
+        sBinding = FragmentSettingsBinding.inflate(layoutInflater)
         setContentView(binding.drawerLayout)
     }
 
@@ -264,11 +247,11 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+/*    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
-    }
+    }*/
 
 
     override fun onSupportNavigateUp(): Boolean {
@@ -281,12 +264,7 @@ class MainActivity : AppCompatActivity() {
         currentFragment = fragment
     }
 
-    fun logout(item: MenuItem) {
-        FirebaseAuth.getInstance().signOut()
-        Toast.makeText(this, "Logout successful", Toast.LENGTH_SHORT).show()
-        startActivity(Intent(this, LoginActivity::class.java))
-        finish()
-    }
+
 
 
 }

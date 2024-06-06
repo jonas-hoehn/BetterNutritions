@@ -1,32 +1,43 @@
 package com.example.betternutritions
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.Toast
+import com.example.betternutritions.databinding.FragmentSettingsBinding
+import androidx.activity.result.contract.ActivityResultContracts
+import com.example.betternutritions.databinding.FragmentHomeBinding
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SettingsFragments.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SettingsFragments : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var fullName: EditText
+    private lateinit var emailAddress: EditText
+    private lateinit var profileImageView: ImageView
+    private lateinit var changeProfile: Button
+    private lateinit var resetPassword: Button
+    private lateinit var accountLogout: Button
+    private lateinit var tButton: Button
+
+    private var _binding: FragmentSettingsBinding? = null
+    private val sBinding get() = _binding!!
+    private val TAG = "TAG"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
+        Toast.makeText(requireContext(), "SettingsFragment ist in OnCreate()", Toast.LENGTH_SHORT).show()
+
     }
 
     override fun onCreateView(
@@ -34,26 +45,52 @@ class SettingsFragments : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        //sBinding = FragmentSettingsBinding.inflate(layoutInflater)
+
+        Toast.makeText(requireContext(), "SettingsFragment ist in OnCreateView()", Toast.LENGTH_SHORT).show()
+        fullName = sBinding.profileName
+        emailAddress = sBinding.profileEmail
+        profileImageView = sBinding.profileImage
+        changeProfile = sBinding.changeProfile
+        resetPassword = sBinding.resetPassword
+        accountLogout = sBinding.logoutProfile
+        tButton = sBinding.tButton
+
+        fullName.setOnClickListener(View.OnClickListener {
+            Log.d(TAG, "Full name clicked!") // Add for debugging
+            Toast.makeText(requireContext(), "Full name clicked!", Toast.LENGTH_SHORT).show()
+        })
+
+
+        accountLogout.setOnClickListener {
+            Log.d(TAG, "Logout button clicked!") // Add for debugging
+            FirebaseAuth.getInstance().signOut()
+            Toast.makeText(requireContext(), "Logout successful", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(requireContext(), LoginActivity::class.java))
+            requireActivity().finish()
+        }
+
+        tButton.setOnClickListener(View.OnClickListener {
+            Log.d(TAG, "tButton clicked!") // Add for debugging
+            Toast.makeText(requireContext(), "tButton clicked!", Toast.LENGTH_SHORT).show()
+        })
+
         return inflater.inflate(R.layout.fragment_settings, container, false)
+
+
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SettingsFragments.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SettingsFragments().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(onViewCreated: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(onViewCreated, savedInstanceState)
+
+
     }
+
+/*    fun logout(item: SettingsFragments) {
+        FirebaseAuth.getInstance().signOut()
+        Toast.makeText(this, "Logout successful", Toast.LENGTH_SHORT).show()
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
+    }*/
 }

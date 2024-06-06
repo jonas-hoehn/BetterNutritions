@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_logo"
         android:supportsRtl="true"
-        android:theme="@style/Base.Theme.BetterNutritions"
+        android:theme="@style/AppTheme"
         tools:targetApi="31">
         <meta-data android:name="com.google.android.iw-lan.ATTRIBUTION_TAG"
             android:value="IWLAN" />
@@ -40,11 +40,11 @@
             android:name=".RoundedCornerToolBar"
             android:exported="false"
             android:label="@string/title_activity_rounded_corner_tool_bar"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/Theme.BetterNutritions.NoActionBarAndStatusBar" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.BetterNutritions">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

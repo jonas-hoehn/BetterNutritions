@@ -3,7 +3,7 @@
 
 
     <solid
-        android:color = "@color/white" />
+        android:color = "@color/md_theme_background" />
     <corners
         android:topLeftRadius="40dp"
         android:topRightRadius="40dp"/>
@@ -14,6 +14,6 @@
         android:bottom="10dp"/>
     <stroke
         android:width="2dp"
-        android:color="@color/white"/>
+        android:color="@color/md_theme_primaryContainer"/>
 
 </shape>

@@ -62,7 +62,7 @@ class LibraryFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_library, container, false)
     }
 
-/*    private fun serializeProduct(code: String) {
+    private fun serializeProduct(code: String) {
 
         Log.d(TAG, url+ code)
         val request = Request.Builder()
@@ -105,9 +105,9 @@ class LibraryFragment : Fragment() {
 
             }
         })
-    }*/
+    }
 
-/*    fun addProductToLibrary(code: String) {
+    fun setContentResult(code: String) {
 
         Log.d(TAG, "Code: $code")
         val eanFormatRegex = Regex("^\\d{8}|\\d{13}$")
@@ -120,5 +120,20 @@ class LibraryFragment : Fragment() {
         } else {
             serializeProduct(code)
         }
-    }*/
+    }
+
+    fun addProductToLibrary(code: String) {
+
+        Log.d(TAG, "Code: $code")
+        val eanFormatRegex = Regex("^\\d{8}|\\d{13}$")
+        val bonareaFormat = Regex("^00\\d{18}$")
+        val ucpaFormat = Regex("^[0-9]{12}\$")
+
+        if (!code.matches(eanFormatRegex) && !code.matches(bonareaFormat) && !code.matches(ucpaFormat)) {
+            Toast.makeText(requireContext(), "Nicht unterstützter Code gescannt: $code", Toast.LENGTH_LONG)
+                .show()
+        } else {
+            serializeProduct(code)
+        }
+    }
 }

@@ -20,6 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
+        android:backgroundTint="@color/md_theme_surfaceVariant"
         android:id="@+id/welcomeHomeCard"
         android:layout_width="200dp"
         android:layout_height="100dp"
@@ -54,6 +55,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/verificationCard"
+        android:backgroundTint="@color/md_theme_surfaceVariant"
         android:layout_width="200dp"
         android:layout_height="100dp"
         android:layout_margin="8dp"
@@ -92,7 +94,7 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="5dp"
                 android:text="@string/verifynow"
-                android:textColor="@color/black" />
+                android:textColor="@color/md_theme_tertiary" />
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
@@ -108,7 +110,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcomeHomeCard"
         app:strokeWidth="0dp"
-        android:backgroundTint="@color/white">
+        android:backgroundTint="@color/md_theme_surface">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -140,6 +142,8 @@
 
                 <com.google.android.material.progressindicator.LinearProgressIndicator
                     android:layout_width="match_parent"
+                    app:indicatorColor="@color/md_theme_primary"
+                    app:trackColor="@color/md_theme_surface"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:progress="50" />
