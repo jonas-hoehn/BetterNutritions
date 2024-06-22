@@ -2,7 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
+    android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/md_theme_background"
@@ -79,6 +79,19 @@
         />
 
 
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/scanningProducts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_info_24"
+        android:tint="@color/md_theme_primary"
+        app:fabSize="normal"
+        app:maxImageSize="20dp"
+        app:layout_anchor="@id/bottomAppBar"
+        android:layout_marginBottom="70dp"
+        android:elevation="8dp"
+        android:text="@string/scan_product_text_label"
+        android:contentDescription="@string/scanning_prodcuts_for_info"/>
 
 
 

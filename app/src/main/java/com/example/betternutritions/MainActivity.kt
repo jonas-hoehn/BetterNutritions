@@ -45,6 +45,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class MainActivity : AppCompatActivity() {
@@ -57,6 +63,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var hBinding: FragmentHomeBinding
     private lateinit var sBinding: FragmentSettingsBinding
     private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var scanningProductsButton: ExtendedFloatingActionButton
 
 
     //private val TAG = "TAG"
@@ -111,11 +118,10 @@ class MainActivity : AppCompatActivity() {
             window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         }
 
-
         initBinding()
         // DAS Folgende macht alles kaputt!
         //setContentView(R.layout.activity_main)
-        setContentView(binding.drawerLayout)
+        setContentView(binding.coordinatorLayout)
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
@@ -126,7 +132,9 @@ class MainActivity : AppCompatActivity() {
         //setSupportActionBar(binding.toolbar)
         val barVisibility: Int = binding.bottomAppBar.visibility
         val btnScanVisibility: Int = binding.btnScan.visibility
-        binding.btnScan.setOnClickListener { showBottomDialog() }
+        showBottomNavigationBar(barVisibility, btnScanVisibility)
+        val fabMainActivity = binding.btnScan
+        fabMainActivity.setOnClickListener { showBottomDialog() }
 
 
         bottomNavigationView = this.findViewById(R.id.bottomNavigationView)
@@ -150,7 +158,10 @@ class MainActivity : AppCompatActivity() {
         }
         /* ---------------------------------------------------------------------------------------------*/
 
-
+        scanningProductsButton = findViewById(R.id.scanningProducts)
+        scanningProductsButton.setOnClickListener {
+            checkPermissionCamera(this)
+        }
 
 
     }
@@ -181,11 +192,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-/*    private fun showBottomNavigationBar(barVisibility: Int, fabVisibility: Int) {
-        binding.navView.visibility =
+    private fun showBottomNavigationBar(barVisibility: Int, fabVisibility: Int) {
+        binding.bottomNavigationView.visibility =
             if (barVisibility == 0) BottomAppBar.VISIBLE else BottomAppBar.GONE
         if (fabVisibility == 0) binding.btnScan.show() else binding.btnScan.hide()
-    }*/
+    }
 
 
     private fun showBottomDialog() {
@@ -228,7 +239,7 @@ class MainActivity : AppCompatActivity() {
         cBinding = ContentMainBinding.inflate(layoutInflater)
         hBinding = FragmentHomeBinding.inflate(layoutInflater)
         sBinding = FragmentSettingsBinding.inflate(layoutInflater)
-        setContentView(binding.drawerLayout)
+        //setContentView(binding.coordinatorLayout)
     }
 
 

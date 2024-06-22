@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Better Nutritions</string>
+    <string name="app_name">Nexain</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="home_fragment_label">First Fragment</string>
@@ -48,4 +48,5 @@
     <string name="profilepicture">Profile picture</string>
     <string name="emailadress">Your Email Address</string>
     <string name="fullname">Your Full Name</string>
+    <string name="scanning_prodcuts_for_info">Scanning Prodcuts for info</string>
 </resources>

@@ -54,6 +54,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx:25.0.0")
     implementation("com.google.firebase:firebase-firestore:25.0.0")
     implementation("com.google.firebase:firebase-auth:23.0.0")
+    implementation("androidx.compose.material3:material3-android:1.2.1")
 
     annotationProcessor ("com.github.bumptech.glide:compiler:4.13.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")

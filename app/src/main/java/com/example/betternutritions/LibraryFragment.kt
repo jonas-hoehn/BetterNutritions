@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ListView
 import android.widget.Toast
 import com.example.betternutritions.model.ProductData
 import com.google.gson.GsonBuilder
@@ -32,6 +33,7 @@ private const val ARG_PARAM2 = "param2"
 class LibraryFragment : Fragment() {
     val productEntries: ArrayList<ProductData> = ArrayList()
     private lateinit var feedAdapter: ArrayAdapter<ProductData>
+    private lateinit var jsonListView: ListView
 
     private lateinit var client: OkHttpClient
     private var jsonString: String = ""
@@ -48,18 +50,21 @@ class LibraryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-/*        client = OkHttpClient.Builder()
+       client = OkHttpClient.Builder()
             .connectTimeout(3, TimeUnit.SECONDS)
             .build()
-
-
-        feedAdapter = FeedAdapter(requireContext(), R.layout.list_item_cardview, productEntries)*/
-
-
 
         val mainActivity: MainActivity = requireActivity() as MainActivity
         mainActivity?.setCurrentFragmentActivity(this)
         return inflater.inflate(R.layout.fragment_library, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        feedAdapter = FeedAdapter(requireContext(), R.layout.list_item_cardview, productEntries)
+        jsonListView = requireView().findViewById(R.id.jsonListView)
+        jsonListView.adapter = feedAdapter
     }
 
     private fun serializeProduct(code: String) {

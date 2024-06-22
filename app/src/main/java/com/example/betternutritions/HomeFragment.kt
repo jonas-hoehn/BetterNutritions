@@ -1,15 +1,12 @@
 package com.example.betternutritions
 
 import android.R.attr
-import android.app.ActivityOptions
 import android.content.Intent
-import android.graphics.Picture
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
@@ -24,14 +21,7 @@ import com.example.betternutritions.model.ProductData
 import com.example.carousel.ImageAdapter
 import com.example.carousel.ImageViewActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.gson.GsonBuilder
-import okhttp3.Call
-import okhttp3.Callback
 import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import org.w3c.dom.Attr
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 
